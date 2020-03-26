@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SetUpP5M">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_155sdp"
+        android:background="@drawable/bgwave"
+        android:orientation="vertical"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_110sdp"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="@dimen/_13sdp"
+            android:rotation="180"
+            android:src="@drawable/buma" />
+    </LinearLayout>
+
+    <LinearLayout
+       android:layout_marginTop="@dimen/_50sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout1"
+        android:orientation="vertical"
+        android:padding="@dimen/_2sdp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_border_rounded_corner"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/mr"
+                android:gravity="center"
+                android:text="Set Up Pembicaraan 5 Menit"
+                android:textColor="#000"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/mm"
+                android:text="Hadir"
+                android:textColor="#000"
+                android:textSize="@dimen/_13ssp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/jam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:fontFamily="@font/mm"
+                android:text="Jam"
+                android:textColor="#000"
+                android:textSize="@dimen/_13ssp" />
+
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mm"
+                    android:text="Tema                :"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_14ssp" />
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/mm"
+                    android:text="Pemateri         :"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_14ssp" />
+
+                <EditText
+                    android:id="@+id/edtPemateri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="@dimen/_9sdp"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_14ssp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/mm"
+                    android:gravity="bottom"
+                    android:text="Absensi            :"
+                    android:textColor="#000"
+                    android:textSize="@dimen/_14ssp" />
+
+                <Switch
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnswithc"/>
+
+                <TextView
+                    android:id="@+id/kirimAbsen"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="Disable"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red_btn_bg_color"
+                    android:fontFamily="@font/mm"/>
+
+            </LinearLayout>
+
+            <Button
+                android:visibility="visible"
+                android:id="@+id/submitFormSetup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/blue_fill__rounded_color"
+                android:fontFamily="@font/black_ops_one"
+                android:text="S U B M I T"
+                android:textColor="#FFF"
+                android:textSize="@dimen/_15ssp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

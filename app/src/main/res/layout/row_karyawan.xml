@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue_border_rounded_corner"
+    app:cardCornerRadius="@dimen/_3sdp"
+    app:cardElevation="@dimen/_3sdp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="@dimen/_2sdp">
+
+    <LinearLayout
+        android:background="@drawable/black_rounded"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Tanggal-->
+        <LinearLayout
+            android:padding="@dimen/_2sdp"
+            android:background="#00008b"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#FFF"
+                tools:ignore="RtlSymmetry"
+                android:text="Nama" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#FFF"
+                android:text=":" />
+
+
+            <TextView
+                android:id="@+id/dataNamaKaryawan"
+                android:layout_width="match_parent"
+                android:maxLength="15"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:padding="2dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="#FFF"
+                android:text="xx-xx-xxxx" />
+        </LinearLayout>
+
+        <!--Jam Presensi-->
+        <LinearLayout
+            android:padding="@dimen/_2sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_5sdp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:ignore="RtlSymmetry"
+                android:text="NIK" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_31sdp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:text=":" />
+
+            <TextView
+                android:id="@+id/dataNikKaryawan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:textAlignment="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:text="xx : xx : xx" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

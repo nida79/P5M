@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "123296914666",
+    "firebase_url": "https://buma-377a5.firebaseio.com",
+    "project_id": "buma-377a5",
+    "storage_bucket": "buma-377a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123296914666:android:a6e2e47f10ff8672f38b93",
+        "android_client_info": {
+          "package_name": "com.example.buma_p5m"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123296914666-brssjktjjb4o8nv0bqmdkr15bd8ddoq0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.buma_p5m",
+            "certificate_hash": "04fa16355c2953a0ce90c4333b5424124d79c26c"
+          }
+        },
+        {
+          "client_id": "123296914666-t7bd7letfjngf0ko67ifnlma3nqslmc4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC74MWYQTt122piC2YP7DLFcCDR-Kxu9Mw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123296914666-t7bd7letfjngf0ko67ifnlma3nqslmc4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

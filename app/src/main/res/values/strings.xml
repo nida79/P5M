@@ -1,0 +1,12 @@
+<resources>
+    <string-array name="themeP5M">
+        <item>-Pilih-</item>
+        <item>Value BUMA</item>
+        <item>Update Project</item>
+        <item>Sharing</item>
+        <item>Appreciation Day</item>
+        <item>Sharing</item>
+    </string-array>
+    <string name="app_name">Buma-P5M</string>
+    <string name="cukup_masukan_email_terdaftar_anda_untuk_melakukan_reset_password">Cukup Masukan Email Terdaftar Anda \n Untuk Melakukan Reset Password</string>
+</resources>
