@@ -1,29 +1,21 @@
 package com.example.buma_p5m.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.models.ModelP5M;
 import com.example.buma_p5m.utils.Session;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,18 +23,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-
 public class FormPm5 extends AppCompatActivity {
-    private static final String FORM = "Data Presensi";
+    private static final String FORM = "Data Absensi";
     Button btnSubmit,btnlokasi;
     String terimaNama, uploadTanggal, uploadBangun, uploadTidur, uploadStatus, uploadjbtn, uploadWaktu,uploadTema,uploadPemateri;
-    TextView tvNama, tvJabatan, tvTanggal, tvStatus, tvJam,tvTema,tvMateri,tvkirimtanggal;
+    TextView tvNama, tvJabatan, tvTanggal, tvStatus, tvJam,tvTema,tvMateri;
     Calendar myCalendar;
     RadioButton sehat, tidak_sehat;
     TextInputEditText tieJamBangun, tieJamTidur;
@@ -64,7 +55,6 @@ public class FormPm5 extends AppCompatActivity {
 
         //mendapat tanggal hari ini
         tanggal();
-//        tanggal2();
 
         //menndapatkan jam saat ini
         jam();
@@ -84,7 +74,7 @@ public class FormPm5 extends AppCompatActivity {
         tvTanggal = findViewById(R.id.tanggalSekarang);
         tvNama = findViewById(R.id.namaForm);
         session = new Session(this);
-        dbRef = FirebaseDatabase.getInstance().getReference(FORM);
+        dbRef = FirebaseDatabase.getInstance().getReference(FORM).child(session.getSPNama());
         //terima data dari sharedpreference
         terimaNama = session.getSPNama();
         uploadTema = session.getSpTema();
@@ -141,7 +131,6 @@ public class FormPm5 extends AppCompatActivity {
 //        memintaperizinan();
 
     }
-
 //    private void memintaperizinan() {
 //        ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
 //    }
@@ -197,8 +186,9 @@ public class FormPm5 extends AppCompatActivity {
                 //jika berhasil
                 else {
                     alertDialog.dismiss();
-                    submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadWaktu, uploadjbtn, uploadBangun, uploadTidur, uploadStatus, keterangan,uploadTema,uploadPemateri));
-                    Toasty.success(getApplicationContext(),"Presensi Berhasil", Toasty.LENGTH_SHORT).show();
+                    submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadWaktu, uploadjbtn,
+                            uploadBangun, uploadTidur, uploadStatus, keterangan,uploadTema,uploadPemateri));
+                    Toasty.success(getApplicationContext(),"Absensi Berhasil", Toasty.LENGTH_SHORT).show();
                     Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
                     startActivity(intentHome);
                     finish();
@@ -239,13 +229,6 @@ public class FormPm5 extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
         tvTanggal.setText(currentDate);
-    }
-
-    private void tanggal2(){
-        tvkirimtanggal = findViewById(R.id.tglkirim);
-        Calendar  calendar2 = Calendar.getInstance();
-        String  date = DateFormat.getDateInstance().format(calendar2.getTime());
-        tvkirimtanggal.setText(date);
     }
 
     private void nonAktifKeyboard() {

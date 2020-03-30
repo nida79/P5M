@@ -177,16 +177,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                                         , Toasty.LENGTH_SHORT).show();
                                 mAuth2.signOut();
                             });
-//                            FirebaseDatabase.getInstance().getReference(USERS) // Nama Tabel
-//                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                    .setValue(informasi).addOnCompleteListener(task1 -> {
-//                                alertDialog.dismiss();
-//
-//                                //menampilkan pesan
-//                                Toasty.success(RegisterActivity.this, "Berhasil Menambah Data Karyawan"
-//                                        , Toasty.LENGTH_SHORT).show();
-//                                mAuth2.signOut();
-//                            });
 
                         } else {
                             alertDialog.dismiss();

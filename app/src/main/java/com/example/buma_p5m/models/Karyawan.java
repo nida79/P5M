@@ -6,4 +6,6 @@ public class Karyawan {
     public String nik;
 
     public Karyawan(){}
+
+
 }

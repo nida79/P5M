@@ -6,13 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/blue_border_rounded_corner"
-    app:cardCornerRadius="@dimen/_3sdp"
-    app:cardElevation="@dimen/_3sdp"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="@dimen/_2sdp">
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardElevation="@dimen/_4sdp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:background="@drawable/black_rounded"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -47,7 +45,7 @@
             <TextView
                 android:id="@+id/dataNamaKaryawan"
                 android:layout_width="match_parent"
-                android:maxLength="15"
+                android:maxLength="16"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:padding="2dp"

@@ -18,4 +18,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColor">@color/putih</item>
+        <item name="android:editTextColor">@color/putih</item>
+        <item name="android:textColorHint">@color/gray_btn_bg_color</item>
+    </style>
 </resources>

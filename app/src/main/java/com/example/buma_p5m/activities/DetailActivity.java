@@ -2,6 +2,7 @@ package com.example.buma_p5m.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class DetailActivity extends AppCompatActivity {
 
     String dapatnama,dapatnik;
@@ -32,9 +35,10 @@ public class DetailActivity extends AppCompatActivity {
     DatabaseReference dbRefrence;
     Session session;
     Query query;
+    SearchView searchView;
     AbsensiAdapter absensiAdapter;
-    List<Absensi> absensilist = new ArrayList<>();
-    private static final String PRESENSI = "Data Presensi";
+    ArrayList<Absensi> absensilist;
+    private static final String PRESENSI = "Data Absensi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +56,69 @@ public class DetailActivity extends AppCompatActivity {
         textViewNama = findViewById(R.id.detailNama);
         textViewEmail = findViewById(R.id.detailEmail);
         session = new Session(this);
-
+        searchView = findViewById(R.id.filterAbsen);
         absensiAdapter = new AbsensiAdapter(this,absensilist);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
         recyclerView = findViewById(R.id.rcvDataPresensi);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
-        dbRefrence = FirebaseDatabase.getInstance().getReference(PRESENSI);
-        query = dbRefrence.orderByChild("name").equalTo(dapatnama);
-        query.addListenerForSingleValueEvent(valueEventListener);
-        recyclerView.setAdapter(absensiAdapter);
-
+        dbRefrence = FirebaseDatabase.getInstance().getReference(PRESENSI).child(dapatnama);
+        query = dbRefrence.limitToLast(20);
         textViewNik.setText(dapatnik);
         textViewNama.setText(dapatnama);
 
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            absensilist.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Absensi dataabsensi = snapshot.getValue(Absensi.class);
-                    absensilist.add(dataabsensi);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (dbRefrence!=null){
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        absensilist = new ArrayList<>();
+                        for (DataSnapshot ds : dataSnapshot.getChildren()){
+                            absensilist.add(ds.getValue(Absensi.class));
+                        }
+                        AbsensiAdapter absensiAdapter = new AbsensiAdapter(DetailActivity.this,absensilist);
+                        recyclerView.setAdapter(absensiAdapter);
+                    }
                 }
-                absensiAdapter.notifyDataSetChanged();
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toasty.error(getApplicationContext(),""+databaseError.getMessage(),Toasty.LENGTH_LONG).show();
+                }
+            });
+        }
+        if (searchView!=null){
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    cari(newText);
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void cari(String newText) {
+        ArrayList<Absensi> searchList = new ArrayList<>();
+        for (Absensi data : absensilist){
+            if (data.tanggal.toLowerCase().contains(newText.toLowerCase())){
+                searchList.add(data);
             }
         }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    };
+        AbsensiAdapter absensiAdapter = new AbsensiAdapter(this,searchList);
+        recyclerView.setAdapter(absensiAdapter);
+    }
 
 
 

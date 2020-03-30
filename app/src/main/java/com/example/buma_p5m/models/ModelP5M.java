@@ -17,24 +17,12 @@ public class ModelP5M {
         Pemateri = pemateri;
     }
 
-    public String getTema() {
-        return Tema;
-    }
-
-    public void setTema(String tema) {
-        Tema = tema;
-    }
-
-    public String getPemateri() {
-        return Pemateri;
-    }
-
-    public void setPemateri(String pemateri) {
-        Pemateri = pemateri;
-    }
-
-    public String getName() {
+    public String getNama() {
         return Nama;
+    }
+
+    public void setNama(String nama) {
+        Nama = nama;
     }
 
     public String getTanggal() {
@@ -53,11 +41,11 @@ public class ModelP5M {
         Jam_Presensi = jam_Presensi;
     }
 
-    public String getJabatan() {
+    public String getDepartemen() {
         return Departemen;
     }
 
-    public void setJabatan(String departemen) {
+    public void setDepartemen(String departemen) {
         Departemen = departemen;
     }
 
@@ -91,6 +79,22 @@ public class ModelP5M {
 
     public void setKeterangan(String keterangan) {
         Keterangan = keterangan;
+    }
+
+    public String getTema() {
+        return Tema;
+    }
+
+    public void setTema(String tema) {
+        Tema = tema;
+    }
+
+    public String getPemateri() {
+        return Pemateri;
+    }
+
+    public void setPemateri(String pemateri) {
+        Pemateri = pemateri;
     }
 }
 

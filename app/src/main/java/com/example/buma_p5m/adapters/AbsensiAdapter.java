@@ -17,17 +17,15 @@ import com.example.buma_p5m.models.Absensi;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiViewHolder> implements Filterable {
+public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiViewHolder> {
 
     private Context mCtx;
-    private List<Absensi> absensilist;
-    private List<Absensi> searchitems;
+    private ArrayList<Absensi> absensilist;
 
 
-    public AbsensiAdapter(Context mCtx, List<Absensi> absensilist) {
+    public AbsensiAdapter(Context mCtx, ArrayList<Absensi> absensilist) {
         this.mCtx = mCtx;
         this.absensilist = absensilist;
-        searchitems = new ArrayList<>(absensilist);
     }
 
     @NonNull
@@ -65,73 +63,5 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
             tvKeterangan= itemView.findViewById(R.id.dataKeterangan);
             textViewNama = itemView.findViewById(R.id.dataNama);
         }
-    }
-
-//    private Filter exampleFilter = new Filter() {
-//        @Override
-//        protected FilterResults performFiltering(CharSequence constraint) {
-//            ArrayList<Absensi> filteredList = new ArrayList<>();
-//
-//            if (constraint == null || constraint.length() == 0) {
-//                filteredList.addAll(searchitems);
-//            } else {
-//                String filterPattern = constraint.toString().toLowerCase().trim();
-//
-//                for (Absensi item : searchitems) {
-//                    if (item.getTanggal().toLowerCase().contains(filterPattern)) {
-//                        filteredList.add(item);
-//                    }
-//                }
-//            }
-//
-//            FilterResults results = new FilterResults();
-//            results.values = filteredList;
-//
-//            return results;
-//        }
-//
-//        @Override
-//        protected void publishResults(CharSequence constraint, FilterResults results) {
-//            absensilist.clear();
-//            absensilist.addAll((ArrayList) results.values);
-//            notifyDataSetChanged();
-//        }
-//    };
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    searchitems = absensilist;
-                } else {
-                    List<Absensi> filteredList = new ArrayList<>();
-                    for (Absensi row : absensilist) {
-
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
-                        if (row.tanggal.toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-                    }
-
-                    absensilist = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = searchitems;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                searchitems = (ArrayList<Absensi>) filterResults.values;
-
-                // refresh the list with filtered data
-                notifyDataSetChanged();
-            }
-        };
     }
 }

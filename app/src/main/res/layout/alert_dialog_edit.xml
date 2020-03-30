@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/_4sdp"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:padding="@dimen/_10sdp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_ok"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:layout_width="356dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/audiowide"
+            android:text="Edit Data Karyawan "
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:textSize="@dimen/_17ssp" />
+
+        <EditText
+            android:inputType="text"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_4sdp"
+            android:id="@+id/editNama"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="50dp"
+            android:background="@drawable/blue_border_rounded_corner"
+            android:hint="    Nama Karyawan"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textColor="#000"/>
+
+        <EditText
+            android:inputType="number"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_4sdp"
+            android:id="@+id/editNik"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="50dp"
+            android:background="@drawable/blue_border_rounded_corner"
+            android:hint="    Nik Karyawan"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:textColor="#000"/>
+
+        <LinearLayout
+            android:baselineAligned="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/llProfile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:text="s u b m i t"
+                    android:id="@+id/submitedit"
+                    android:elevation="@dimen/_12sdp"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_ok"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_15ssp"
+                    android:fontFamily="@font/black_ops_one"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:layout_marginBottom="@dimen/_6sdp"
+                    android:text="cancel"
+                    android:id="@+id/canceledit"
+                    android:elevation="@dimen/_12sdp"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_ok"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_15ssp"
+                    android:fontFamily="@font/black_ops_one"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

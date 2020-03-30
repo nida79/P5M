@@ -5,14 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/blue_border_rounded_corner"
-    app:cardCornerRadius="@dimen/_3sdp"
-    app:cardElevation="@dimen/_3sdp"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="@dimen/_2sdp">
+    app:cardCornerRadius="@dimen/_4sdp"
+    app:cardElevation="@dimen/_4sdp"
+    app:cardUseCompatPadding="true">
+
 
     <LinearLayout
-        android:background="@drawable/black_rounded"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -20,6 +18,7 @@
         <!--Tanggal-->
 
         <LinearLayout
+            android:baselineAligned="false"
             android:padding="@dimen/_2sdp"
             android:background="#00008b"
             android:layout_width="match_parent"
@@ -27,180 +26,317 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llProfile"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_5sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:textColor="#FFF"
-                tools:ignore="RtlSymmetry"
-                android:text="Tanggal" />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#FFF"
+                    tools:ignore="RtlSymmetry"
+                    android:text="Tanggal" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_58sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:textColor="#FFF"
-                android:text=":" />
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+                <TextView
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#FFF"
+                    android:text=":" />
 
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/dataTanggal"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="@dimen/_55sdp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="#FFF"
-                android:text="xx-xx-xxxx" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dataTanggal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:padding="2dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="#FFF"
+                    android:text="xx-xx-xxxx" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <!--Jam Presensi-->
 
         <LinearLayout
+            android:baselineAligned="false"
             android:padding="@dimen/_2sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_5sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                tools:ignore="RtlSymmetry"
-                android:text="Jam Absensi  " />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
+                <TextView
+                    android:textColor="#000"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:textAlignment="viewStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="RtlSymmetry"
+                    android:text="Jam Absensi  " />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text=":" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/dataJam"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:text="xx : xx : xx" />
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+                <TextView
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#000"
+                    android:text=":" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dataJam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:text="xx : xx : xx" />
+
+            </LinearLayout>
+
         </LinearLayout>
-
 
         <!--Jam Tidur-->
 
         <LinearLayout
+            android:baselineAligned="false"
             android:padding="@dimen/_2sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_5sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text="Jam Tidur" />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
+                <TextView
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Jam Tidur"
+                    tools:ignore="RtlSymmetry" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_42sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text=":" />
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+                <TextView
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#000"
+                    android:text=":" />
 
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/dataTidur"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="@dimen/_55sdp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:text="xx : xx : xx" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dataTidur"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:text="xx : xx : xx" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <!--Jam Bangun-->
+
         <LinearLayout
+            android:baselineAligned="false"
             android:padding="@dimen/_2sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_5sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text="Jam Bangun" />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
+                <TextView
+                    android:textColor="#000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Jam Bangun"
+                    tools:ignore="RtlSymmetry" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_24sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text=":" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/dataBangun"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:text="xx : xx : xx" />
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+                <TextView
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#000"
+                    android:text=":" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dataBangun"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:text="xx : xx : xx" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
 
         <!--Keterangan-->
         <LinearLayout
+            android:baselineAligned="false"
             android:padding="@dimen/_2sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <TextView
-                android:paddingBottom="@dimen/_2sdp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/_8sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text="Keterangan"
-                tools:ignore="RtlSymmetry" />
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="vertical">
+                <TextView
+                    android:textColor="#000"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="Keterangan"
+                    tools:ignore="RtlSymmetry" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_29sdp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:text=":" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/dataKeterangan"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:text="xx : xx : xx" />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/dataNama"
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+                <TextView
+                    android:paddingEnd="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="#000"
+                    android:text=":" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/_55sdp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                android:text="xx : xx : xx" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dataKeterangan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:text="xx : xx : xx" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/dataNama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:text="xx : xx : xx" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

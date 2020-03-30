@@ -13,11 +13,9 @@
         android:layout_height="wrap_content">
 
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_165sdp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
             android:background="@drawable/bgwave"
             android:rotation="180"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +36,7 @@
         <TextView
             android:ellipsize="end"
             android:maxLines="1"
-            android:maxLength="15"
+            android:maxLength="16"
             android:id="@+id/detailNama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,25 +89,36 @@
             app:layout_constraintHorizontal_bias="0.964"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.833" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/filterAbsen"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/blue_border_rounded_corner"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.909"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="1.0"
+            app:queryHint="Cari Data" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/mr"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/audiowide"
+            android:text="Pencarian"
             android:textColor="#000"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
+            android:textSize="@dimen/_15ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.047"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.916"
-            android:text= "List Data Absensi" />
-
+            app:layout_constraintVertical_bias="0.915" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

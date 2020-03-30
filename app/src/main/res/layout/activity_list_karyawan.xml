@@ -13,67 +13,45 @@
         android:layout_height="wrap_content">
 
         <View
+            android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_165sdp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
             android:background="@drawable/bgwave"
             android:rotation="180"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <ImageView
-            android:id="@+id/fotoProfileAdmin"
-            android:layout_width="71dp"
-            android:layout_height="71dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="26dp"
-            android:src="@drawable/ic_employees"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/audiowide"
+            android:text="Pencarian"
+            android:textColor="#000"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.029"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/presennamaAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="27dp"
-            android:fontFamily="@font/mr"
-            android:textColor="#FFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/fotoProfileAdmin"
             app:layout_constraintTop_toTopOf="parent"
-            android:text= "Nama" />
+            app:layout_constraintVertical_bias="0.915" />
 
-        <TextView
-            android:id="@+id/presenemailAdmin"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchKaryawan"
+            android:layout_width="@dimen/_180sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/ml"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/fotoProfileAdmin"
-            app:layout_constraintTop_toBottomOf="@+id/presennamaAdmin"
-            android:text= "Email" />
+            android:animateLayoutChanges="true"
+            android:background="@drawable/blue_border_rounded_corner"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.894"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view3"
+            app:layout_constraintVertical_bias="1.0"
+            app:queryHint="Cari Data User" />
 
-        <TextView
-            android:id="@+id/presennikAdmin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/ml"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/fotoProfileAdmin"
-            app:layout_constraintTop_toBottomOf="@+id/presenemailAdmin"
-            android:text= "Nik" />
 
         <ImageView
             android:id="@+id/imageView3"
@@ -90,22 +68,23 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:fontFamily="@font/mr"
-            android:textColor="#000"
-            android:textSize="@dimen/_13ssp"
+            android:fontFamily="@font/roboto_condensed_bold"
+            android:gravity="center"
+            android:text="List Data Karyawan"
+            android:textColor="@color/putih"
+            android:textSize="@dimen/_25ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.916"
-            android:text= "List Data Karyawan" />
-
+            app:layout_constraintVertical_bias="0.134" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -113,7 +92,7 @@
         android:id="@+id/rcvDataKaryawan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/_5sdp"
+        android:padding="@dimen/_2sdp"
         android:layout_below="@id/constraint1"
         tools:listitem="@layout/row_karyawan" />
 
