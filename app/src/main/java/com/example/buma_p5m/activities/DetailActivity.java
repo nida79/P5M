@@ -74,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (dbRefrence!=null){
-            query.addValueEventListener(new ValueEventListener() {
+            dbRefrence.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){

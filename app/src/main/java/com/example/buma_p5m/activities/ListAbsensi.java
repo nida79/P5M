@@ -65,7 +65,7 @@ public class ListAbsensi extends AppCompatActivity {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.keepSynced(true);
         dbRefrence = rootRef.child(PRESENSI).child(session.getSPNama());
-        query = dbRefrence.limitToLast(5);
+        query = dbRefrence.limitToLast(20);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
         recyclerView = findViewById(R.id.rcvDataPresensi);
@@ -79,7 +79,7 @@ public class ListAbsensi extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (dbRefrence!=null){
-            query.addValueEventListener(new ValueEventListener() {
+            dbRefrence.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()){

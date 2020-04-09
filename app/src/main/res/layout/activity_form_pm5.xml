@@ -23,10 +23,11 @@
         <ImageView
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_110sdp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:paddingTop="@dimen/_13sdp"
             android:rotation="180"
-            android:src="@drawable/buma" />
+            android:src="@drawable/buma"
+            android:contentDescription="@string/todo" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,11 +38,12 @@
         android:padding="@dimen/_2sdp">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/blue_border_rounded_corner"
                 android:orientation="vertical"
                 android:padding="@dimen/_10sdp"
@@ -116,7 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:text="Sharing"
                         android:textColor="#000"
                         android:textSize="@dimen/_14ssp" />
@@ -144,23 +146,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:text="Umi Nida Latifah"
                         android:textColor="#000"
                         android:textSize="@dimen/_14ssp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/gray_btn_bg_color"/>
-
                 <LinearLayout
                     android:id="@+id/ll1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     android:baselineAligned="false"
                     android:orientation="horizontal">
 
@@ -177,7 +173,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:text="Nama Karyawan"
                         android:textColor="#000"
                         android:textSize="@dimen/_14ssp" />
@@ -204,7 +200,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
                         android:text="Infrastruktur"
                         android:textColor="#000"
                         android:textSize="@dimen/_14ssp" />
@@ -358,18 +354,6 @@
                     android:background="@drawable/blue_fill__rounded_color"
                     android:fontFamily="@font/black_ops_one"
                     android:text="S U B M I T"
-                    android:textColor="#FFF"
-                    android:textSize="@dimen/_15ssp" />
-                <Button
-                    android:visibility="gone"
-                    android:id="@+id/cekLokasi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:background="@drawable/blue_fill__rounded_color"
-                    android:fontFamily="@font/black_ops_one"
-                    android:text="Cek Lokasi"
                     android:textColor="#FFF"
                     android:textSize="@dimen/_15ssp" />
             </LinearLayout>

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.shreyaspatil:FirebaseRecyclerPagination:1.0.1@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c0440b01eb061e5da95167de798ae6b/jetified-FirebaseRecyclerPagination-1.0.1/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5c0440b01eb061e5da95167de798ae6b/jetified-FirebaseRecyclerPagination-1.0.1/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/bf76c0ca24059c0d2842a0c2e8ce5a63/jetified-FirebaseRecyclerPagination-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/bf76c0ca24059c0d2842a0c2e8ce5a63/jetified-FirebaseRecyclerPagination-1.0.1/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.shreyaspatil/FirebaseRecyclerPagination/1.0.1/ddab62c3c9959dc5044d7b4a90dfa4cf01e8f8d4/FirebaseRecyclerPagination-1.0.1-javadoc.jar!/" />

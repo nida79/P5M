@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private FirebaseAuth auth;
     Session session;
-    private static final String TAG = "DetailActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

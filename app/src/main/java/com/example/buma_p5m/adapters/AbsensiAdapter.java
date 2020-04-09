@@ -44,6 +44,7 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
         holder.tvTidur.setText(data.jam_Tidur);
         holder.tvBangun.setText(data.jam_Bangun);
         holder.tvKeterangan.setText(data.keterangan);
+        
     }
 
     @Override
