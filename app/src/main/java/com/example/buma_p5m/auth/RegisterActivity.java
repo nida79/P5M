@@ -1,5 +1,6 @@
 package com.example.buma_p5m.auth;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     RadioButton pria, wanita;
     String gender = "";
     private static final String USERS = "Data Karyawan";
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

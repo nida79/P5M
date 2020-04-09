@@ -76,7 +76,7 @@
                     android:textAlignment="center"
                     android:textSize="@dimen/_12ssp"
                     android:textColor="#FFF"
-                    android:text="xx-xx-xxxx" />
+                    android:text="@string/sample" />
 
             </LinearLayout>
 
@@ -121,7 +121,8 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                     android:textColor="#000"
-                    android:text=":" />
+                    android:text="@string/titikdua"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 

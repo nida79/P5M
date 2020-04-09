@@ -162,7 +162,8 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/ic_registration_form" />
+                        android:src="@drawable/ic_registration_form"
+                        android:contentDescription="@string/todo" />
 
                     <TextView
                         android:textAlignment="center"
@@ -189,7 +190,8 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/add_user" />
+                        android:src="@drawable/add_user"
+                        android:contentDescription="@string/todo" />
 
                     <TextView
                         android:id="@+id/add"
@@ -216,7 +218,8 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginBottom="8dp"
-                        android:src="@drawable/ic_system" />
+                        android:src="@drawable/ic_system"
+                        android:contentDescription="@string/todo" />
 
                     <TextView
                         android:textAlignment="center"

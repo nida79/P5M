@@ -3,6 +3,7 @@ package com.example.buma_p5m.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,7 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
     private Button kirim;
 
     Query query;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
