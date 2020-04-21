@@ -1,5 +1,6 @@
 package com.example.buma_p5m.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -18,9 +19,11 @@ public class Session {
     public static final String SP_PEMATER ="spPemateri";
     public static final String SP_STATUS ="spStatus";
 
+
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
 
+    @SuppressLint("CommitPrefEdits")
     public Session(Context context){
         sp = context.getSharedPreferences(SP_MAHASISWA_APP, Context.MODE_PRIVATE);
         spEditor = sp.edit();

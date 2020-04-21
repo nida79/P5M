@@ -11,6 +11,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -20,6 +21,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.models.ModelP5M;
 import com.example.buma_p5m.utils.Session;
@@ -28,8 +33,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -45,18 +53,19 @@ import es.dmoral.toasty.Toasty;
 
 public class FormPm5 extends AppCompatActivity {
     private static final String FORM = "Data Absensi";
-    Button btnSubmit,btnlokasi;
-    String terimaNama, uploadTanggal, uploadBangun, uploadTidur, uploadStatus,
-            uploadjbtn, uploadWaktu,uploadTema,uploadPemateri;
-    TextView tvNama, tvJabatan, tvTanggal, tvStatus, tvJam,tvTema,tvMateri;
-    Calendar myCalendar;
-    RadioButton sehat, tidak_sehat;
-    TextInputEditText tieJamBangun, tieJamTidur;
-    String keterangan = "";
-    Session session;
-    DatabaseReference dbRef;
-    String lokasi;
-    FusedLocationProviderClient fusedLocationProviderClient;
+    public static final String SPREAD_SHEET ="https://script.google.com/macros/s/AKfycbz0V-_q9QcDeGp20IAMcVrMjuWbrHzXU8AcGjmGHU8W9npDFKs/exec";
+    private static final String TAG ="FormP5m" ;
+    private Button btnSubmit;
+    private String terimaNama, uploadTanggal, uploadBangun, uploadTidur, uploadStatus,
+            uploadDepartemen, uploadJamabsen,uploadTema,uploadPemateri,uid;
+    private TextView tvNama, tvJabatan, tvTanggal, tvStatus, tvJam,tvTema,tvMateri;
+    private RadioButton sehat, tidak_sehat;
+    private TextInputEditText tieJamBangun, tieJamTidur;
+    private String keterangan = "";
+    private Session session;
+    private  DatabaseReference dbRef;
+    private String lokasi;
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
@@ -68,7 +77,7 @@ public class FormPm5 extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-       //memberikan nilai pada variable / initialize
+        //memberikan nilai pada variable / initialize
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         tvTema = findViewById(R.id.temaForm);
         tvMateri = findViewById(R.id.pemateriForm);
@@ -78,7 +87,6 @@ public class FormPm5 extends AppCompatActivity {
         tidak_sehat = findViewById(R.id.checkTidakSehat);
         tieJamBangun = findViewById(R.id.bangunForm);
         tieJamTidur = findViewById(R.id.tidurForm);
-        myCalendar = Calendar.getInstance();
         tvStatus = findViewById(R.id.status);
         tvJabatan = findViewById(R.id.jabatanForm);
         tvTanggal = findViewById(R.id.tanggalSekarang);
@@ -88,6 +96,7 @@ public class FormPm5 extends AppCompatActivity {
         //terima data dari sharedpreference
         terimaNama = session.getSPNama();
         uploadTema = session.getSpTema();
+        uid = session.getSPUid();
         uploadPemateri = session.getSpPemater();
         tvTema.setText(uploadTema);
         tvMateri.setText(uploadPemateri);
@@ -130,10 +139,7 @@ public class FormPm5 extends AppCompatActivity {
             mTimePicker.show();
 
         });
-
-
-
-       memintaPerizinan();
+        memintaPerizinan();
     }
 
     private void memintaPerizinan() {
@@ -173,10 +179,10 @@ public class FormPm5 extends AppCompatActivity {
             } else {
                 uploadBangun = Objects.requireNonNull(tieJamBangun.getText()).toString();
                 uploadTidur = Objects.requireNonNull(tieJamTidur.getText()).toString();
-                uploadjbtn = tvJabatan.getText().toString();
+                uploadDepartemen = tvJabatan.getText().toString();
                 uploadStatus = tvStatus.getText().toString();
                 uploadTanggal = tvTanggal.getText().toString();
-                uploadWaktu = tvJam.getText().toString();
+                uploadJamabsen = tvJam.getText().toString();
 
                 if (sehat.isChecked()) {
                     keterangan = "Sehat";
@@ -202,39 +208,62 @@ public class FormPm5 extends AppCompatActivity {
                     Toasty.warning(getApplicationContext(), "Status Keterangan Belum Dipilih"
                             , Toasty.LENGTH_SHORT).show();
                 } else {
-
                     final android.app.AlertDialog alertDialog =
                             new SpotsDialog.Builder().setContext(FormPm5.this).build();
                     alertDialog.setMessage("Mengirim Data");
                     alertDialog.show();
-
                     //jika gagal
-                    if (isEmpty(keterangan, uploadWaktu, uploadBangun, uploadTidur, uploadTanggal, uploadStatus, uploadjbtn, terimaNama, uploadStatus)) {
+                    if (isEmpty(keterangan, uploadJamabsen, uploadBangun, uploadTidur, uploadTanggal, uploadStatus, uploadDepartemen, terimaNama, uploadStatus)) {
                         alertDialog.dismiss();
                         Toasty.error(getApplicationContext(), "Presensi Gagal, Periksa Koneksi Anda", Toasty.LENGTH_SHORT).show();
                         tieJamTidur.setText("");
                         tieJamBangun.setText("");
                     }
-
-                    //jika berhasil
                     else {
                         alertDialog.dismiss();
-                        submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadWaktu, uploadjbtn,
-                                uploadBangun, uploadTidur, uploadStatus, keterangan,uploadTema,uploadPemateri,lokasi));
+                        //jika tidak ada field kosong
+                        AndroidNetworking.post(SPREAD_SHEET)
+                                .setPriority(Priority.HIGH)
+                                .addBodyParameter("action", "addItem")
+                                .addBodyParameter("uid", uid)
+                                .addBodyParameter("tanggal", uploadTanggal)
+                                .addBodyParameter("tema", uploadTema)
+                                .addBodyParameter("pemateri", uploadPemateri)
+                                .addBodyParameter("nama", terimaNama)
+                                .addBodyParameter("departemen", uploadDepartemen)
+                                .addBodyParameter("jam_absensi", uploadJamabsen)
+                                .addBodyParameter("jam_tidur", uploadTidur)
+                                .addBodyParameter("jam_bangun", uploadBangun)
+                                .addBodyParameter("lokasi", lokasi)
+                                .addBodyParameter("status", uploadStatus)
+                                .addBodyParameter("keterangan", keterangan)
+                                .build()
+                                .getAsJSONObject(new JSONObjectRequestListener() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Log.e(TAG, "onResponse: " + response);
+                                    }
+
+                                    @Override
+                                    public void onError(ANError anError) {
+                                        Log.e(TAG, "onError: " + anError.getErrorDetail());
+                                        Toasty.info(getApplicationContext(),"Tidak ada Koneksi, Data Tersimpan di Firebase",Toasty.LENGTH_LONG).show();
+                                    }
+                                });
+                                submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadJamabsen, uploadDepartemen,
+                                uploadBangun, uploadTidur, uploadStatus, keterangan, uploadTema, uploadPemateri, lokasi));
                         Toasty.success(getApplicationContext(),"Absensi Berhasil", Toasty.LENGTH_SHORT).show();
                         Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
                         startActivity(intentHome);
                         finish();
                     }
-            }
-
+                }
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
     private void jam() {
-
         tvJam = findViewById(R.id.jam);
         Calendar jamSekarang = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");

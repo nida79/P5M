@@ -34,14 +34,14 @@ public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "TEMA";
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private String email, Nama, Nik, Level,status,setara,pengisi,tema;
+    private String email, Nama, Nik, Level,status,setara,pengisi,tema,uid;
     private TextView namaKaryawan, emailKarawan, nikKaryawan, levelakun;
     private static final String USERS = "Data Karyawan";
     private static final String TEMA = "Setup Form";
     private LinearLayout linearLayouthome, linearLayoutwadah,llsetting,llform;
-    Session session;
-    DatabaseReference userRef;
-    DatabaseReference temaRef;
+    private Session session;
+    private DatabaseReference userRef;
+    private DatabaseReference temaRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
                         Nama = keyId.child("nama").getValue(String.class);
                         Nik = keyId.child("nik").getValue(String.class);
                         email = keyId.child("email").getValue(String.class);
+                        uid = keyId.child("uid").getValue(String.class);
                         break;
                     }
                 }
@@ -103,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                 session.saveSPString(Session.SP_NAMA, Nama);
                 session.saveSPString(Session.SP_LEVEL, Level);
                 session.saveSPString(Session.SP_NIK, Nik);
+                session.saveSPString(Session.SP_UID,uid);
 
                 //jika level id admin, makan menu tambah data muncul
                 if (levelakun.getText().equals("Admin")) {
@@ -118,11 +120,9 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 alertDialog.dismiss();
-
                 Toasty.error(getApplicationContext(),
-                        "Terjadi Kesalahan Pada Database", Toasty.LENGTH_SHORT).show();
+                        databaseError.getMessage(), Toasty.LENGTH_SHORT).show();
 
             }
         });
@@ -132,6 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         secondRef.keepSynced(true);
         temaRef = secondRef.child(TEMA);
 
+        //cek absensi enable/disable
         temaRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -155,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toasty.error(getApplicationContext(),databaseError.getMessage(),Toasty.LENGTH_LONG).show();
             }
         });
 
@@ -167,7 +168,6 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
             }
         };
-
 
         buttonLogout.setOnClickListener(v -> new AlertDialog.Builder(HomeActivity.this)
                 .setTitle("SignOut Akun!")
@@ -190,8 +190,6 @@ public class HomeActivity extends AppCompatActivity {
             Intent showProfile = new Intent(HomeActivity.this, ListKaryawan.class);
             startActivity(showProfile);
             finish();
-
-
         });
 
         linearLayouthome.setOnClickListener(v -> {
@@ -199,7 +197,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intentregis);
             finish();
         });
-
 
         llform.setOnClickListener(v -> {
             Intent form = new Intent(HomeActivity.this, FormPm5.class);
@@ -212,9 +209,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(setting);
             finish();
         });
-
     }
-
 
     @Override
     protected void onRestart() {
@@ -237,8 +232,6 @@ public class HomeActivity extends AppCompatActivity {
                 .setPositiveButton("Ya", (dialog, which) -> HomeActivity.this.keluar())
                 .setNegativeButton("Tidak", null)
                 .show();
-
-
     }
 
     @Override

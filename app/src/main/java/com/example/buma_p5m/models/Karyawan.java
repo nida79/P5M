@@ -7,5 +7,4 @@ public class Karyawan {
 
     public Karyawan(){}
 
-
 }

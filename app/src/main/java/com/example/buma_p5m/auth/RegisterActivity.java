@@ -3,6 +3,7 @@ package com.example.buma_p5m.auth;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +35,7 @@ import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final String TAG ="RgisterActivity" ;
     private String[] list = {"-Pilih-", "Admin", "User"};
 
     Session session;
@@ -170,9 +173,10 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                         if (task.isSuccessful()) {
                             //menghilangkan loading
                             alertDialog.dismiss();
-
+                            FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
+                            String uid = Objects.requireNonNull(user).getUid();
                             // mengirim data sesuai model yang telah dibuat
-                            User informasi = new User(nama, nik, email, gender,level);
+                            User informasi = new User(nama, nik, email, gender,level,uid);
                             databaseReference.push().setValue(informasi).addOnCompleteListener(task1 -> {
                                 alertDialog.dismiss();
                                 Toasty.success(RegisterActivity.this, "Berhasil Menambah Data Karyawan"

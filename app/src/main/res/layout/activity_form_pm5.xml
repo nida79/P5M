@@ -236,6 +236,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
+                            android:focusable="false"
                             android:hint="Input Jam Tidur"
                             android:textColor="#000"
                             android:textSize="@dimen/_14ssp" />
@@ -273,6 +274,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
+                            android:focusable="false"
                             android:hint="Input Jam Bangun"
                             android:textColor="#000"
                             android:textSize="@dimen/_14ssp" />

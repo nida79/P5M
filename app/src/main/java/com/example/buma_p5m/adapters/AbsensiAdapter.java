@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +13,6 @@ import com.example.buma_p5m.R;
 import com.example.buma_p5m.models.Absensi;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiViewHolder> {
 
@@ -40,7 +37,7 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
         final Absensi data = absensilist.get(position);
         holder.tvTanggal.setText(data.tanggal);
         holder.textViewNama.setText(data.name);
-        holder.tvPresensi.setText(data.jam_Presensi);
+        holder.tvPresensi.setText(data.jam_Absensi);
         holder.tvTidur.setText(data.jam_Tidur);
         holder.tvBangun.setText(data.jam_Bangun);
         holder.tvKeterangan.setText(data.keterangan);
@@ -53,7 +50,7 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
     }
 
 
-    class AbsensiViewHolder extends RecyclerView.ViewHolder {
+    static class AbsensiViewHolder extends RecyclerView.ViewHolder {
         TextView tvTanggal,tvPresensi,tvTidur,tvBangun,tvKeterangan, textViewNama;
         AbsensiViewHolder(@NonNull View itemView) {
             super(itemView);

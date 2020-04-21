@@ -7,17 +7,27 @@ public class User {
     private String Email;
     private String Gender;
     private String Level;
+    private String Uid;
 
     //Constructor
 
     public User(){}
 
-    public User(String nama, String nik, String email, String gender, String level) {
+    public User(String nama, String nik, String email, String gender, String level, String uid) {
         Nama = nama;
         Nik = nik;
         Email = email;
         Gender = gender;
         Level = level;
+        Uid = uid;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public String getNama() {

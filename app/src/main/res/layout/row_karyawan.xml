@@ -52,7 +52,8 @@
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textColor="#FFF"
-                android:text="xx-xx-xxxx" />
+                android:text="xx-xx-xxxx"
+                tools:ignore="RtlCompat" />
         </LinearLayout>
 
         <!--Jam Presensi-->

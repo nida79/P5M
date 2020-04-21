@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Buma-P5M.iml" filepath="$PROJECT_DIR$/Buma-P5M.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Buma-P5M.iml" filepath="$PROJECT_DIR$/Buma-P5M.iml" group="Buma-P5M" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Buma-P5M/app" />
     </modules>
   </component>
 </project>

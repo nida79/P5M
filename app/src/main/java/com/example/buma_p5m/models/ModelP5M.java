@@ -2,12 +2,12 @@ package com.example.buma_p5m.models;
 
 public class ModelP5M {
 
-    private String Nama,Tanggal,Jam_Presensi,Departemen,Jam_Bangun,Jam_Tidur,Status,Keterangan,Tema,Pemateri,Lokasi;
+    private String Nama,Tanggal,Jam_Absensi,Departemen,Jam_Bangun,Jam_Tidur,Status,Keterangan,Tema,Pemateri,Lokasi;
 
-    public ModelP5M(String nama, String tanggal, String jam_Presensi, String departemen, String jam_Bangun, String jam_Tidur, String status, String keterangan, String tema, String pemateri, String lokasi) {
+    public ModelP5M(String nama, String tanggal, String jam_Absensi, String departemen, String jam_Bangun, String jam_Tidur, String status, String keterangan, String tema, String pemateri, String lokasi) {
         Nama = nama;
         Tanggal = tanggal;
-        Jam_Presensi = jam_Presensi;
+        Jam_Absensi = jam_Absensi;
         Departemen = departemen;
         Jam_Bangun = jam_Bangun;
         Jam_Tidur = jam_Tidur;
@@ -34,12 +34,12 @@ public class ModelP5M {
         Tanggal = tanggal;
     }
 
-    public String getJam_Presensi() {
-        return Jam_Presensi;
+    public String getJam_Absensi() {
+        return Jam_Absensi;
     }
 
-    public void setJam_Presensi(String jam_Presensi) {
-        Jam_Presensi = jam_Presensi;
+    public void setJam_Absensi(String jam_Absensi) {
+        Jam_Absensi = jam_Absensi;
     }
 
     public String getDepartemen() {

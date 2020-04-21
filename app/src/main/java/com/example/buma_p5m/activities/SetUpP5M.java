@@ -36,7 +36,6 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
     String uid ;
     EditText editText;
     TextView textView;
-    private Switch mySwitch;
     private Button kirim;
 
     Query query;
@@ -52,7 +51,7 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         uid = "1";
         kirim = findViewById(R.id.submitFormSetup);
-        mySwitch = findViewById(R.id.btnswithc);
+        Switch mySwitch = findViewById(R.id.btnswithc);
         editText = findViewById(R.id.edtPemateri);
         textView = findViewById(R.id.kirimAbsen);
 
@@ -86,18 +85,6 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
             alertDialog.show();
             statusAbsen = textView.getText().toString();
             materi = editText.getText().toString();
-//            if (materi.isEmpty()){
-//                alertDialog.dismiss();
-//                Toasty.warning(getApplicationContext(),"Input Pemateri",Toasty.LENGTH_LONG).show();
-//            }
-//            else if (spin.equals("-Pilih-")){
-//                alertDialog.dismiss();
-//                Toasty.warning(getApplicationContext(),"Pilih Tema P5M",Toasty.LENGTH_LONG).show();
-//            }
-//            else {
-//                submitItem(statusAbsen,uid,spin,materi);
-//
-//            }
             submitItem(statusAbsen,uid,spin,materi);
         });
     }
