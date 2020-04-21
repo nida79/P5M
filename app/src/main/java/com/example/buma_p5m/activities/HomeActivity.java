@@ -142,16 +142,19 @@ public class HomeActivity extends AppCompatActivity {
                     pengisi = postSnapshot.child("pemateri").getValue(String.class);
                     tema = postSnapshot.child("tema").getValue(String.class);
                 }
-
                 session.saveSPString(Session.SP_STATUS,status);
                 session.saveSPString(Session.SP_PEMATER,pengisi);
                 session.saveSPString(Session.SP_TEMA,tema);
                 if (Objects.requireNonNull(status).equals(setara)){
+                    llform.setOnClickListener(v -> Toasty.info(getApplicationContext(),"Absensi Belum dibuka",Toasty.LENGTH_LONG).show());
+                }
+                else {
                     llform.setOnClickListener(v -> {
-                        Toasty.info(getApplicationContext(),"Absensi Belum dibuka",Toasty.LENGTH_LONG).show();
+                        Intent form = new Intent(HomeActivity.this, FormPm5.class);
+                        startActivity(form);
+                        finish();
                     });
                 }
-
             }
 
             @Override
@@ -195,12 +198,6 @@ public class HomeActivity extends AppCompatActivity {
         linearLayouthome.setOnClickListener(v -> {
             Intent intentregis = new Intent(HomeActivity.this, RegisterActivity.class);
             startActivity(intentregis);
-            finish();
-        });
-
-        llform.setOnClickListener(v -> {
-            Intent form = new Intent(HomeActivity.this, FormPm5.class);
-            startActivity(form);
             finish();
         });
 
