@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ListAdmin">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_165sdp"
+            android:background="@drawable/bgwave"
+            android:rotation="180"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/fotoProfile"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:src="@drawable/ic_employees"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxLength="16"
+            android:id="@+id/detailNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="27dp"
+            android:fontFamily="@font/mr"
+            android:textColor="#FFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/fotoProfile"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text= "Nama" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/detailEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/ml"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/fotoProfile"
+            app:layout_constraintTop_toBottomOf="@+id/detailNama"
+            android:text= "Email" />
+
+        <TextView
+            android:id="@+id/detailNik"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/ml"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/fotoProfile"
+            app:layout_constraintTop_toBottomOf="@+id/detailEmail"
+            android:text= "Nik" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_110sdp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/buma"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.964"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.833" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/filterAbsen"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/blue_border_rounded_corner"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.909"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view2"
+            app:layout_constraintVertical_bias="1.0"
+            app:queryHint="Cari Data" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:fontFamily="@font/audiowide"
+            android:text="Pencarian"
+            android:textColor="#000"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.047"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.915" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvDataPresensi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_5sdp"
+        android:layout_below="@id/constraint1"
+        tools:listitem="@layout/row_absensi" />
+
+
+</RelativeLayout>

@@ -17,12 +17,12 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="orientation"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_apk"
         android:label="@string/app_name"
-        android:configChanges="orientation"
-        android:screenOrientation="portrait"
         android:roundIcon="@mipmap/ic_apk_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
@@ -41,8 +41,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".utils.MapsActivity"
-            android:label="@string/title_activity_maps"/>
+            android:name=".activities.DetailActivity"
+            android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.SplashScreen"
             android:theme="@style/AppTheme.NoActionbar">
@@ -83,9 +83,9 @@
         <activity
             android:name=".auth.LoginActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionbar"/>
+            android:theme="@style/AppTheme.NoActionbar" />
         <activity
-            android:name=".activities.DetailActivity"
+            android:name=".activities.ListAdmin"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
 

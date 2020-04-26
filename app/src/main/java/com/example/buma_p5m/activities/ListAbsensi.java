@@ -41,14 +41,15 @@ import es.dmoral.toasty.Toasty;
 
 public class ListAbsensi extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    DatabaseReference dbRefrence;
-    Session session;
-    SearchView searchView;
-    ArrayList<Absensi> absensilist;
-    Query query;
+    private RecyclerView recyclerView;
+    private DatabaseReference dbRefrence;
+    private Session session;
+    private SearchView searchView;
+    private ArrayList<Absensi> absensilist;
+    private Query query;
     private static final String PRESENSI = "Data Absensi";
-
+    public static final String DATA = "EXTRA_DATA";
+    private AbsensiAdapter absensiAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class ListAbsensi extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
+
     }
 
 
@@ -87,8 +89,14 @@ public class ListAbsensi extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()){
                             absensilist.add(ds.getValue(Absensi.class));
                         }
-                        AbsensiAdapter absensiAdapter = new AbsensiAdapter(ListAbsensi.this,absensilist);
+                        absensiAdapter = new AbsensiAdapter(ListAbsensi.this,absensilist);
                         recyclerView.setAdapter(absensiAdapter);
+                        absensiAdapter.setOnItemClickListener(position -> {
+                            Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
+                            intent.putExtra(DATA,absensilist.get(position));
+                            intent.putExtra("data","user");
+                            startActivity(intent);
+                        });
                     }
                 }
 
@@ -117,12 +125,18 @@ public class ListAbsensi extends AppCompatActivity {
     private void cari(String newText) {
         ArrayList<Absensi> searchList = new ArrayList<>();
         for (Absensi data : absensilist){
-            if (data.tanggal.toLowerCase().contains(newText.toLowerCase())){
+            if (data.getTanggal().toLowerCase().contains(newText.toLowerCase())){
                 searchList.add(data);
             }
         }
-        AbsensiAdapter absensiAdapter = new AbsensiAdapter(this,searchList);
+        absensiAdapter = new AbsensiAdapter(this,searchList);
         recyclerView.setAdapter(absensiAdapter);
+        absensiAdapter.setOnItemClickListener(position -> {
+            Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
+            intent.putExtra(DATA,absensilist.get(position));
+            intent.putExtra("data","user");
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,15 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
 
     private Context mCtx;
     private ArrayList<Absensi> absensilist;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
 
     public AbsensiAdapter(Context mCtx, ArrayList<Absensi> absensilist) {
@@ -28,19 +38,19 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
     @NonNull
     @Override
     public AbsensiViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mCtx).inflate(R.layout.row_absensi, parent, false);
-        return new AbsensiViewHolder(view);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_absensi, parent, false);
+        return new AbsensiViewHolder(view,mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AbsensiViewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull AbsensiViewHolder holder, final int position) {
         final Absensi data = absensilist.get(position);
-        holder.tvTanggal.setText(data.tanggal);
-        holder.textViewNama.setText(data.name);
-        holder.tvPresensi.setText(data.jam_Absensi);
-        holder.tvTidur.setText(data.jam_Tidur);
-        holder.tvBangun.setText(data.jam_Bangun);
-        holder.tvKeterangan.setText(data.keterangan);
+        holder.tvTanggal.setText(data.getTanggal());
+        holder.tvPresensi.setText(data.getJam_Absensi());
+        holder.tvTidur.setText(data.getJam_Tidur());
+        holder.tvBangun.setText(data.getJam_Bangun());
+        holder.tvKeterangan.setText(data.getKeterangan());
+
         
     }
 
@@ -51,15 +61,23 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
 
 
     static class AbsensiViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTanggal,tvPresensi,tvTidur,tvBangun,tvKeterangan, textViewNama;
-        AbsensiViewHolder(@NonNull View itemView) {
+        TextView tvTanggal,tvPresensi,tvTidur,tvBangun,tvKeterangan;
+        AbsensiViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
             super(itemView);
             tvTanggal= itemView.findViewById(R.id.dataTanggal);
             tvPresensi= itemView.findViewById(R.id.dataJam);
             tvTidur= itemView.findViewById(R.id.dataTidur);
             tvBangun= itemView.findViewById(R.id.dataBangun);
             tvKeterangan= itemView.findViewById(R.id.dataKeterangan);
-            textViewNama = itemView.findViewById(R.id.dataNama);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position1 = getAdapterPosition();
+                    if (position1 != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position1);
+                    }
+                }
+            });
         }
     }
 }

@@ -106,6 +106,7 @@
                 android:textSize="16sp" />
 
             <LinearLayout
+                android:foreground="?android:attr/selectableItemBackground"
                 android:id="@+id/llwadah"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,6 +124,7 @@
 
 
                 <LinearLayout
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="visible"
                     android:id="@+id/llProfile"
                     android:layout_width="0dp"
@@ -178,13 +180,15 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:id="@+id/tambahData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:targetApi="m">
 
                     <ImageView
                         android:layout_width="60dp"
@@ -206,6 +210,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:visibility="gone"
                     android:id="@+id/setupform"
                     android:layout_width="0dp"
@@ -278,6 +283,7 @@
 
 
         <Button
+            android:foreground="?android:attr/selectableItemBackground"
             android:id="@+id/btnLogout"
             android:layout_width="@dimen/_220sdp"
             android:layout_height="wrap_content"

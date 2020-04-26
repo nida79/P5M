@@ -18,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.buma_p5m.R;
-import com.example.buma_p5m.activities.DetailActivity;
+import com.example.buma_p5m.activities.ListAdmin;
 import com.example.buma_p5m.models.Karyawan;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -66,7 +66,7 @@ public class KaryawanAdapter extends RecyclerView.Adapter<KaryawanAdapter.Karyaw
             String extranama = data.nama;
             String extranik = data.nik;
 
-            Intent detail = new Intent(mCtx, DetailActivity.class);
+            Intent detail = new Intent(mCtx, ListAdmin.class);
             detail.putExtra("extranama",extranama);
             detail.putExtra("extranik",extranik);
             detail.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

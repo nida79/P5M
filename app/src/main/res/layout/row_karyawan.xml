@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="wrap_content"
     android:background="@drawable/blue_border_rounded_corner"
     app:cardCornerRadius="@dimen/_5sdp"
