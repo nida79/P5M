@@ -60,22 +60,14 @@ dependencies {
     //size shape and text
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    //circle image
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-    //export pdf
-    implementation 'com.itextpdf:itextg:5.5.10'
     //Android Paging Libray
     implementation "android.arch.paging:runtime:1.0.1"
     //Firebase Pagination Library
     implementation 'com.shreyaspatil:FirebaseRecyclerPagination:1.0.1'
-    //switch
-    implementation 'com.github.angads25:toggle:1.1.0'
-    //pallete
-    implementation 'androidx.palette:palette:1.0.0'
-    implementation 'com.algolia:algoliasearch-android:3.27.0'
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     //animation
     implementation 'com.airbnb.android:lottie:3.4.0'
     //networking
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    //permision
+    implementation 'com.karumi:dexter:6.1.0'
 }

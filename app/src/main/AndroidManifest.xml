@@ -38,7 +38,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_api_key" />
 
         <activity
             android:name=".activities.DetailActivity"
@@ -54,19 +54,15 @@
         </activity>
         <activity
             android:name=".activities.SetUpP5M"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.ListKaryawan"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.ListAbsensi"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.FormPm5"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.RegisterActivity"
@@ -74,7 +70,6 @@
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.HomeActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.ResetPasswordActivity"
@@ -82,11 +77,9 @@
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.LoginActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.ListAdmin"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
 
         <meta-data

@@ -1,6 +1,8 @@
 package com.example.buma_p5m.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.auth.LoginActivity;
@@ -152,6 +155,7 @@ public class HomeActivity extends AppCompatActivity {
                     llform.setOnClickListener(v -> {
                         Intent form = new Intent(HomeActivity.this, FormPm5.class);
                         startActivity(form);
+                        finishAffinity();
                         finish();
                     });
                 }
@@ -184,6 +188,7 @@ public class HomeActivity extends AppCompatActivity {
         tombolDatapresensi.setOnClickListener(v -> {
             Intent showProfile = new Intent(HomeActivity.this, ListAbsensi.class);
             startActivity(showProfile);
+            finishAffinity();
             finish();
 
 
@@ -192,20 +197,48 @@ public class HomeActivity extends AppCompatActivity {
         tombolDatapresensiAdmin.setOnClickListener(v -> {
             Intent showProfile = new Intent(HomeActivity.this, ListKaryawan.class);
             startActivity(showProfile);
+            finishAffinity();
             finish();
         });
 
         linearLayouthome.setOnClickListener(v -> {
             Intent intentregis = new Intent(HomeActivity.this, RegisterActivity.class);
             startActivity(intentregis);
+            finishAffinity();
             finish();
         });
 
         llsetting.setOnClickListener(v -> {
             Intent setting = new Intent(HomeActivity.this,SetUpP5M.class);
             startActivity(setting);
+            finishAffinity();
             finish();
         });
+
+        memintaPerizinan();
+    }
+    private void memintaPerizinan() {
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED)
+        {
+            Log.e(TAG, "memintaPerizinan: " );
+        }
+        else {
+            ActivityCompat.requestPermissions(HomeActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode==44){
+            if (grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                Log.e(TAG, "onRequestPermissionsResult: " );
+            }
+        }
+        else {
+            memintaPerizinan();
+        }
     }
 
     @Override

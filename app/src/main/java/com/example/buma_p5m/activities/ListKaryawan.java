@@ -70,6 +70,7 @@ public class ListKaryawan extends AppCompatActivity {
                             userList.add(ds.getValue(Karyawan.class));
                         }
                         KaryawanAdapter karyawanAdapter = new KaryawanAdapter(ListKaryawan.this,userList);
+                        karyawanAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(karyawanAdapter);
                     }
                 }
@@ -104,6 +105,7 @@ public class ListKaryawan extends AppCompatActivity {
             }
         }
         KaryawanAdapter cariKaryawan = new KaryawanAdapter(this,searchList);
+        cariKaryawan.notifyDataSetChanged();
         recyclerView.setAdapter(cariKaryawan);
     }
 
@@ -111,6 +113,7 @@ public class ListKaryawan extends AppCompatActivity {
     public void onBackPressed() {
         Intent intentHome = new Intent(ListKaryawan.this, HomeActivity.class);
         startActivity(intentHome);
+        finishAffinity();
         finish();
     }
 }

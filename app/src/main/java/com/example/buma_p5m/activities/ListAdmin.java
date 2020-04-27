@@ -60,6 +60,8 @@ public class ListAdmin extends AppCompatActivity {
         absensiAdapter = new AbsensiAdapter(this,absensilist);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
+        manager.setReverseLayout(true);
+        manager.setStackFromEnd(true);
         recyclerView = findViewById(R.id.rcvDataPresensi);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
@@ -85,6 +87,7 @@ public class ListAdmin extends AppCompatActivity {
                         }
                         absensiAdapter = new AbsensiAdapter(ListAdmin.this,absensilist);
                         recyclerView.setAdapter(absensiAdapter);
+                        absensiAdapter.notifyDataSetChanged();
                         absensiAdapter.setOnItemClickListener(position -> {
                             Intent intent = new Intent(ListAdmin.this,DetailActivity.class);
                             intent.putExtra(DATA,absensilist.get(position));
@@ -126,6 +129,7 @@ public class ListAdmin extends AppCompatActivity {
         }
         absensiAdapter = new AbsensiAdapter(this,searchList);
         recyclerView.setAdapter(absensiAdapter);
+        absensiAdapter.notifyDataSetChanged();
         absensiAdapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(ListAdmin.this,DetailActivity.class);
             intent.putExtra(DATA,absensilist.get(position));
@@ -142,6 +146,7 @@ public class ListAdmin extends AppCompatActivity {
         Intent intentHome = new Intent(ListAdmin.this, ListKaryawan.class);
         intentHome.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intentHome);
+        finishAffinity();
         finish();
     }
 }

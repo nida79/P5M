@@ -2,22 +2,28 @@ package com.example.buma_p5m.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -28,7 +34,12 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.models.ModelP5M;
 import com.example.buma_p5m.utils.Session;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +53,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +63,8 @@ import java.util.Objects;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
-public class FormPm5 extends AppCompatActivity {
+public class FormPm5 extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private static final String FORM = "Data Absensi";
     public static final String SPREAD_SHEET ="https://script.google.com/macros/s/AKfycbz0V-_q9QcDeGp20IAMcVrMjuWbrHzXU8AcGjmGHU8W9npDFKs/exec";
     private static final String TAG ="FormP5m" ;
@@ -66,6 +79,16 @@ public class FormPm5 extends AppCompatActivity {
     private  DatabaseReference dbRef;
     private String lokasi;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private GoogleApiClient googleApiClient;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private LocationRequest locationRequest;
+    private static final long UPDATE_INTERVAL = 5000, FASTEST_INTERVAL = 5000; // = 5 seconds
+    // lists for permissions
+    private ArrayList<String> permissionsToRequest;
+    private ArrayList<String> permissionsRejected = new ArrayList<>();
+    private ArrayList<String> permissions = new ArrayList<>();
+    // integer for permissions results request
+    private static final int ALL_PERMISSIONS_RESULT = 1011;
 
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
@@ -101,8 +124,6 @@ public class FormPm5 extends AppCompatActivity {
         tvTema.setText(uploadTema);
         tvMateri.setText(uploadPemateri);
         tvNama.setText(terimaNama);
-
-
         //mendapat tanggal hari ini
         tanggal();
 
@@ -139,19 +160,23 @@ public class FormPm5 extends AppCompatActivity {
             mTimePicker.show();
 
         });
-        memintaPerizinan();
-    }
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissionsToRequest = permissionsToRequest(permissions);
 
-    private void memintaPerizinan() {
-        if (ActivityCompat.checkSelfPermission(FormPm5.this,
-                Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED)
-        {
-            mendapatkanLokasi();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (permissionsToRequest.size() > 0) {
+                requestPermissions(permissionsToRequest.toArray(
+                        new String[0]), ALL_PERMISSIONS_RESULT);
+            }
         }
-        else {
-            ActivityCompat.requestPermissions(FormPm5.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
-        }
+
+        // we build google api client
+        googleApiClient = new GoogleApiClient.Builder(this).
+                addApi(LocationServices.API).
+                addConnectionCallbacks(this).
+                addOnConnectionFailedListener(this).build();
+
     }
 
     private void mendapatkanLokasi() {
@@ -169,14 +194,23 @@ public class FormPm5 extends AppCompatActivity {
         });
     }
 
-
-
     private void sendToFirebase() {
         btnSubmit.setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    &&  ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                showSettingsDialog();
+            }
+            else {
+
 
             if (lokasi == null){
-                memintaPerizinan();
-            } else {
+                Toasty.info(getApplicationContext(),"Aktifkan GPS Anda dan tunggu 6 detik untuk mendapatkan lokasi yang akurat",Toasty.LENGTH_LONG).show();
+                mendapatkanLokasi();
+            }
+            else
+                {
                 uploadBangun = Objects.requireNonNull(tieJamBangun.getText()).toString();
                 uploadTidur = Objects.requireNonNull(tieJamTidur.getText()).toString();
                 uploadDepartemen = tvJabatan.getText().toString();
@@ -243,7 +277,6 @@ public class FormPm5 extends AppCompatActivity {
                                     public void onResponse(JSONObject response) {
                                         Log.e(TAG, "onResponse: " + response);
                                     }
-
                                     @Override
                                     public void onError(ANError anError) {
                                         Log.e(TAG, "onError: " + anError.getErrorDetail());
@@ -258,6 +291,7 @@ public class FormPm5 extends AppCompatActivity {
                         finish();
                     }
                 }
+            }
             }
         });
     }
@@ -310,10 +344,179 @@ public class FormPm5 extends AppCompatActivity {
 
     }
 
+
+    private ArrayList<String> permissionsToRequest(ArrayList<String> wantedPermissions) {
+        ArrayList<String> result = new ArrayList<>();
+
+        for (String perm : wantedPermissions) {
+            if (!hasPermission(perm)) {
+                result.add(perm);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean hasPermission(String permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (googleApiClient != null) {
+            googleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!checkPlayServices()) {
+           Toasty.info(getApplicationContext(),"Aktifkan GPS Anda",Toasty.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // stop location updates
+        if (googleApiClient != null  &&  googleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+            googleApiClient.disconnect();
+        }
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST);
+            } else {
+                finish();
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&  ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        // Permissions ok, we get last location
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location = task.getResult();
+            if (location !=null){
+                Geocoder geocoder = new Geocoder(FormPm5.this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                    lokasi = addresses.get(0).getAddressLine(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        startLocationUpdates();
+    }
+
+    private void startLocationUpdates() {
+        locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&  ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toasty.info(this, "Aktifkan Perizinan Lokasi Untuk Melakukan Absensi !", Toasty.LENGTH_SHORT).show();
+        }
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+           mendapatkanLokasi();
+
+        }
+    }
+    private void showSettingsDialog() {
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(FormPm5.this);
+        builder.setTitle("Izin Lokasi Diperlukan !");
+        builder.setMessage("Aktifkan Perizinan untuk Melakukan Absensi");
+        builder.setPositiveButton("BUKA PENGATURAN", (dialog, which) -> {
+            dialog.cancel();
+            openSettings();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == ALL_PERMISSIONS_RESULT) {
+            for (String perm : permissionsToRequest) {
+                if (!hasPermission(perm)) {
+                    permissionsRejected.add(perm);
+                }
+            }
+            if (permissionsRejected.size() > 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                        new AlertDialog.Builder(FormPm5.this).
+                                setMessage("Izin Lokasi Dibutuhkan Untuk Melakukan Absensi .!").
+                                setPositiveButton("BUKA PENGATURAN", (dialogInterface, i) -> requestPermissions(permissionsRejected.
+                                        toArray(new String[0]), ALL_PERMISSIONS_RESULT)).setNegativeButton("Cancel", null).create().show();
+
+                    }
+                }
+            } else {
+                if (googleApiClient != null) {
+                    googleApiClient.connect();
+                }
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
         startActivity(intentHome);
+        finishAffinity();
         finish();
     }
 }

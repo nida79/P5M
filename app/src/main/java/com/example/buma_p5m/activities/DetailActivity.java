@@ -1,10 +1,13 @@
 package com.example.buma_p5m.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -15,14 +18,20 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.models.Absensi;
+import com.example.buma_p5m.utils.Session;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -40,14 +49,16 @@ public class DetailActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         terima = getIntent().getStringExtra("data");
         nik = getIntent().getStringExtra("extranik");
+        Session session = new Session(getApplicationContext());
+        if (nik==null){
+            nik = session.getSpNik();
+        }
         init();
         //Map Setting
         supportMapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.framemaps);
         //permission
         perizinan();
-
-
     }
 
     private void perizinan() {
@@ -60,6 +71,7 @@ public class DetailActivity extends AppCompatActivity {
                     {Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
     }
+
 
     private void init() {
         tvnik = findViewById(R.id.nikDetail);
@@ -88,30 +100,38 @@ public class DetailActivity extends AppCompatActivity {
             nama = data.getNama();
         }
     }
+
+
     private void ShowMap() {
         supportMapFragment.getMapAsync(googleMap -> {
-            String location = tvalamat.getText().toString();
-            Double latitude = null;
-            Double longitude = null;
-
-            Geocoder geocoder = new Geocoder(DetailActivity.this);
-            try {
-                List<Address> addresses = geocoder.getFromLocationName(location,1);
-                if (addresses.size()>0){
-                    latitude = addresses.get(0).getLatitude();
-                    longitude = addresses.get(0).getLongitude();
+            ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = Objects.requireNonNull(connMgr).getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected()) {
+                String location = tvalamat.getText().toString();
+                Double latitude = null;
+                Double longitude = null;
+                Geocoder geocoder = new Geocoder(DetailActivity.this);
+                try {
+                    List<Address> addresses = geocoder.getFromLocationName(location,1);
+                    if (addresses.size()>0){
+                        latitude = addresses.get(0).getLatitude();
+                        longitude = addresses.get(0).getLongitude();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (latitude!=null && longitude!=null){
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    MarkerOptions options = new MarkerOptions().position(latLng)
+                            .title("Lokasi Absen "+tvnama.getText().toString());
+                    CameraPosition posisi = CameraPosition.builder().target(latLng).zoom(18).bearing(0).tilt(45).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(posisi));
+                    googleMap.addMarker(options);
+                }
             }
-            if (latitude!=null && longitude!=null){
-                LatLng latLng = new LatLng(latitude, longitude);
-                MarkerOptions options = new MarkerOptions().position(latLng)
-                        .title("Lokasi Absen "+tvnama.getText().toString());
-                CameraPosition posisi = CameraPosition.builder().target(latLng).zoom(18).bearing(0).tilt(45).build();
-//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
-                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(posisi));
-                googleMap.addMarker(options);
+            else {
+                Toasty.info(getApplicationContext(),
+                        "Tidak Ada Koneksi Internet, Tidak Dapat Menampilkan Peta",Toasty.LENGTH_LONG).show();
             }
 
         });

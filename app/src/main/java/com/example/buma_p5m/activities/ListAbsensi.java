@@ -69,6 +69,8 @@ public class ListAbsensi extends AppCompatActivity {
         query = dbRefrence.limitToLast(20);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
+        manager.setStackFromEnd(true);
+        manager.setReverseLayout(true);
         recyclerView = findViewById(R.id.rcvDataPresensi);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
@@ -91,6 +93,7 @@ public class ListAbsensi extends AppCompatActivity {
                         }
                         absensiAdapter = new AbsensiAdapter(ListAbsensi.this,absensilist);
                         recyclerView.setAdapter(absensiAdapter);
+                        absensiAdapter.notifyDataSetChanged();
                         absensiAdapter.setOnItemClickListener(position -> {
                             Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
                             intent.putExtra(DATA,absensilist.get(position));
@@ -131,6 +134,7 @@ public class ListAbsensi extends AppCompatActivity {
         }
         absensiAdapter = new AbsensiAdapter(this,searchList);
         recyclerView.setAdapter(absensiAdapter);
+        absensiAdapter.notifyDataSetChanged();
         absensiAdapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
             intent.putExtra(DATA,absensilist.get(position));
