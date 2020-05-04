@@ -119,21 +119,28 @@ public class ListAdmin extends AppCompatActivity {
 
     private void cari(String newText) {
         ArrayList<Absensi> searchList = new ArrayList<>();
-        for (Absensi data : absensilist){
-            if (data.getTanggal().toLowerCase().contains(newText.toLowerCase())){
-                searchList.add(data);
+        if (absensilist!=null){
+            for (Absensi data : absensilist){
+                    if (data.getTanggal().toLowerCase().contains(newText.toLowerCase())){
+                        searchList.add(data);
+                    }
+
             }
+            absensiAdapter = new AbsensiAdapter(searchList);
+            recyclerView.setAdapter(absensiAdapter);
+            absensiAdapter.notifyDataSetChanged();
+            absensiAdapter.setOnItemClickListener(position -> {
+                Intent intent = new Intent(ListAdmin.this,DetailActivity.class);
+                intent.putExtra(DATA,searchList.get(position));
+                intent.putExtra("data","admin");
+                intent.putExtra("extranik",dapatnik);
+                startActivity(intent);
+            });
         }
-        absensiAdapter = new AbsensiAdapter(searchList);
-        recyclerView.setAdapter(absensiAdapter);
-        absensiAdapter.notifyDataSetChanged();
-        absensiAdapter.setOnItemClickListener(position -> {
-            Intent intent = new Intent(ListAdmin.this,DetailActivity.class);
-            intent.putExtra(DATA,searchList.get(position));
-            intent.putExtra("data","admin");
-            intent.putExtra("extranik",dapatnik);
-            startActivity(intent);
-        });
+        else {
+            Toasty.info(getApplicationContext(),"Data Tidak Ditemukan",Toasty.LENGTH_SHORT).show();
+        }
+
     }
 
 

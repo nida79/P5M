@@ -27,13 +27,13 @@ import es.dmoral.toasty.Toasty;
 
 public class ListKaryawan extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    DatabaseReference dbRefrence;
-    Session session;
-    Query query;
+    private RecyclerView recyclerView;
+    private DatabaseReference dbRefrence;
+    private Session session;
+    private Query query;
     private static final String KARYAWAN = "Data Karyawan";
-    ArrayList<Karyawan> userList;
-    SearchView searchView;
+    private ArrayList<Karyawan> userList;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +99,21 @@ public class ListKaryawan extends AppCompatActivity {
 
     private void cari(String newText) {
         ArrayList<Karyawan> searchList = new ArrayList<>();
-        for (Karyawan data : userList){
-            if (data.nama.toLowerCase().contains(newText.toLowerCase())||data.nik.toLowerCase().contains(newText)){
-                searchList.add(data);
+        if (userList!=null){
+            for (Karyawan data : userList){
+                if (data.nama.toLowerCase().contains(newText.toLowerCase())||data.nik.toLowerCase().contains(newText)){
+                    searchList.add(data);
+
+                }
+
             }
+            KaryawanAdapter cariKaryawan = new KaryawanAdapter(this,searchList);
+            cariKaryawan.notifyDataSetChanged();
+            recyclerView.setAdapter(cariKaryawan);
         }
-        KaryawanAdapter cariKaryawan = new KaryawanAdapter(this,searchList);
-        cariKaryawan.notifyDataSetChanged();
-        recyclerView.setAdapter(cariKaryawan);
+        else {
+            Toasty.info(getApplicationContext(),"Data Tidak Ditemukan",Toasty.LENGTH_LONG).show();
+        }
     }
 
     @Override

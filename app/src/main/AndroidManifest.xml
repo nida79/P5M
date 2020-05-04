@@ -64,14 +64,12 @@
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.RegisterActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.ResetPasswordActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionbar" />
         <activity
             android:name=".auth.LoginActivity"

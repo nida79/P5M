@@ -113,20 +113,26 @@ public class ListAbsensi extends AppCompatActivity {
 
     private void cari(String newText) {
         ArrayList<Absensi> searchList = new ArrayList<>();
-        for (Absensi data : absensilist){
-            if (data.getTanggal().toLowerCase().contains(newText.toLowerCase())){
-                searchList.add(data);
+        if (absensilist!=null){
+            for (Absensi data : absensilist){
+                if (data.getTanggal().toLowerCase().contains(newText.toLowerCase())){
+                    searchList.add(data);
+                }
             }
+            absensiAdapter = new AbsensiAdapter(searchList);
+            recyclerView.setAdapter(absensiAdapter);
+            absensiAdapter.notifyDataSetChanged();
+            absensiAdapter.setOnItemClickListener(position -> {
+                Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
+                intent.putExtra(DATA,searchList.get(position));
+                intent.putExtra("data","user");
+                startActivity(intent);
+            });
         }
-        absensiAdapter = new AbsensiAdapter(searchList);
-        recyclerView.setAdapter(absensiAdapter);
-        absensiAdapter.notifyDataSetChanged();
-        absensiAdapter.setOnItemClickListener(position -> {
-            Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
-            intent.putExtra(DATA,searchList.get(position));
-            intent.putExtra("data","user");
-            startActivity(intent);
-        });
+        else {
+            Toasty.info(getApplicationContext(),"Data Tidak Ditemukan",Toasty.LENGTH_LONG).show();
+        }
+
     }
 
     @Override

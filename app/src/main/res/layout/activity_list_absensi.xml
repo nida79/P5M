@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="1.0"
-            app:queryHint="Cari Data Absen" />
+            app:queryHint="Input Tanggal" />
 
         <ImageView
             android:id="@+id/imageView3"

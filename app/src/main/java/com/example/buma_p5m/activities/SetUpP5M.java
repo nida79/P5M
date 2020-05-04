@@ -32,13 +32,11 @@ import es.dmoral.toasty.Toasty;
 
 public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final String FORM = "Setup Form";
-    String spin,statusAbsen,materi;
-    String uid ;
-    EditText editText;
-    TextView textView;
+    private String spin,statusAbsen,materi;
+    private String uid ;
+    private EditText editText;
+    private TextView textView;
     private Button kirim;
-
-    Query query;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
