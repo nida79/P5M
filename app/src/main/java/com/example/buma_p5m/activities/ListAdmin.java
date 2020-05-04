@@ -29,10 +29,9 @@ import es.dmoral.toasty.Toasty;
 public class ListAdmin extends AppCompatActivity {
 
     private String dapatnama,dapatnik;
-    private TextView textViewNama, textViewEmail, textViewNik;
+    private TextView textViewNama, textViewNik;
     private RecyclerView recyclerView;
     private DatabaseReference dbRefrence;
-    private Session session;
     private Query query;
     private SearchView searchView;
     private AbsensiAdapter absensiAdapter;
@@ -54,10 +53,8 @@ public class ListAdmin extends AppCompatActivity {
 
         textViewNik = findViewById(R.id.detailNik);
         textViewNama = findViewById(R.id.detailNama);
-        textViewEmail = findViewById(R.id.detailEmail);
-        session = new Session(this);
         searchView = findViewById(R.id.filterAbsen);
-        absensiAdapter = new AbsensiAdapter(this,absensilist);
+        absensiAdapter = new AbsensiAdapter(absensilist);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(RecyclerView.VERTICAL);
         manager.setReverseLayout(true);
@@ -85,7 +82,7 @@ public class ListAdmin extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()){
                             absensilist.add(ds.getValue(Absensi.class));
                         }
-                        absensiAdapter = new AbsensiAdapter(ListAdmin.this,absensilist);
+                        absensiAdapter = new AbsensiAdapter(absensilist);
                         recyclerView.setAdapter(absensiAdapter);
                         absensiAdapter.notifyDataSetChanged();
                         absensiAdapter.setOnItemClickListener(position -> {
@@ -127,12 +124,12 @@ public class ListAdmin extends AppCompatActivity {
                 searchList.add(data);
             }
         }
-        absensiAdapter = new AbsensiAdapter(this,searchList);
+        absensiAdapter = new AbsensiAdapter(searchList);
         recyclerView.setAdapter(absensiAdapter);
         absensiAdapter.notifyDataSetChanged();
         absensiAdapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(ListAdmin.this,DetailActivity.class);
-            intent.putExtra(DATA,absensilist.get(position));
+            intent.putExtra(DATA,searchList.get(position));
             intent.putExtra("data","admin");
             intent.putExtra("extranik",dapatnik);
             startActivity(intent);

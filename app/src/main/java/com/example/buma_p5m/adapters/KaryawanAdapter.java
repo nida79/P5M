@@ -74,7 +74,6 @@ public class KaryawanAdapter extends RecyclerView.Adapter<KaryawanAdapter.Karyaw
 
         });
         holder.itemView.setOnLongClickListener(v -> {
-
             String extranama = data.nama;
             String extranik = data.nik;
 
@@ -168,7 +167,7 @@ public class KaryawanAdapter extends RecyclerView.Adapter<KaryawanAdapter.Karyaw
         return userList.size();
     }
 
-    class KaryawanViewHolder extends RecyclerView.ViewHolder {
+    static class KaryawanViewHolder extends RecyclerView.ViewHolder {
         TextView namakaryawan,nikkaryawan;
 
         KaryawanViewHolder(@NonNull View itemView) {

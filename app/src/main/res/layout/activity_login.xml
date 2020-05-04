@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/andada"
-                android:text="Presensi Pembicaraan 5 Menit"
+                android:text="Absensi Pembicaraan 5 Menit"
                 android:textAlignment="center"
                 android:textColor="#000"
                 android:textSize="@dimen/_14ssp"

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Absensi implements Parcelable {
 
-    private String nama,tanggal, jam_Absensi,jam_Bangun,jam_Tidur,keterangan,lokasi,tema,pemateri;
+    private String nama,tanggal, jam_Absensi,jam_Bangun,jam_Tidur,keterangan,lokasi,tema,pemateri,koordinat;
 
     public Absensi(){}
 
@@ -19,6 +19,7 @@ public class Absensi implements Parcelable {
         lokasi = in.readString();
         tema = in.readString();
         pemateri = in.readString();
+        koordinat = in.readString();
     }
 
     public static final Creator<Absensi> CREATOR = new Creator<Absensi>() {
@@ -105,6 +106,14 @@ public class Absensi implements Parcelable {
         this.pemateri = pemateri;
     }
 
+    public String getKoordinat() {
+        return koordinat;
+    }
+
+    public void setKoordinat(String koordinat) {
+        this.koordinat = koordinat;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -121,5 +130,6 @@ public class Absensi implements Parcelable {
         dest.writeString(lokasi);
         dest.writeString(tema);
         dest.writeString(pemateri);
+        dest.writeString(koordinat);
     }
 }

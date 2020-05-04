@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgt"
+    tools:context=".auth.SplashScreen">
+
+
+    <TextView
+        android:layout_marginTop="@dimen/_50sdp"
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="15"
+        android:id="@+id/tvsplash1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/audiowide"
+        android:text="Buma P5M"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:textSize="@dimen/_25ssp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="15"
+        android:layout_above="@id/splashProgress"
+        android:id="@+id/tvsplash2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/mm"
+        android:padding="@dimen/_5sdp"
+        android:text="Save Papper Save Trees\n Save Time Save The World"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/splashProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

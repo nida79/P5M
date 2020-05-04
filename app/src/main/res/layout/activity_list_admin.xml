@@ -50,19 +50,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:text= "Nama" />
 
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/detailEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/ml"
-            android:textColor="#FFF"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/fotoProfile"
-            app:layout_constraintTop_toBottomOf="@+id/detailNama"
-            android:text= "Email" />
+
 
         <TextView
             android:id="@+id/detailNik"
@@ -74,7 +62,7 @@
             android:textColor="#FFF"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/fotoProfile"
-            app:layout_constraintTop_toBottomOf="@+id/detailEmail"
+            app:layout_constraintTop_toBottomOf="@+id/detailNama"
             android:text= "Nik" />
 
         <ImageView
@@ -103,7 +91,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2"
             app:layout_constraintVertical_bias="1.0"
-            app:queryHint="Cari Data" />
+            app:queryHint="Input Tanggal" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -69,9 +69,9 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
     public static final String SPREAD_SHEET ="https://script.google.com/macros/s/AKfycbz0V-_q9QcDeGp20IAMcVrMjuWbrHzXU8AcGjmGHU8W9npDFKs/exec";
     private static final String TAG ="FormP5m" ;
     private Button btnSubmit;
-    private String terimaNama, uploadTanggal, uploadBangun, uploadTidur, uploadStatus,
+    private String terimaNama, uploadTanggal, uploadBangun, uploadTidur, uploadKordinat,
             uploadDepartemen, uploadJamabsen,uploadTema,uploadPemateri,uid;
-    private TextView tvNama, tvJabatan, tvTanggal, tvStatus, tvJam,tvTema,tvMateri;
+    private TextView tvNama, tvJabatan, tvTanggal, tvJam,tvTema,tvMateri;
     private RadioButton sehat, tidak_sehat;
     private TextInputEditText tieJamBangun, tieJamTidur;
     private String keterangan = "";
@@ -110,7 +110,6 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
         tidak_sehat = findViewById(R.id.checkTidakSehat);
         tieJamBangun = findViewById(R.id.bangunForm);
         tieJamTidur = findViewById(R.id.tidurForm);
-        tvStatus = findViewById(R.id.status);
         tvJabatan = findViewById(R.id.jabatanForm);
         tvTanggal = findViewById(R.id.tanggalSekarang);
         tvNama = findViewById(R.id.namaForm);
@@ -182,11 +181,17 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
     private void mendapatkanLokasi() {
         fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
             Location location = task.getResult();
+            String korlat;
+            String korlong;
             if (location !=null){
                 Geocoder geocoder = new Geocoder(FormPm5.this, Locale.getDefault());
                 try {
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
                     lokasi = addresses.get(0).getAddressLine(0);
+                    korlat = String.valueOf(addresses.get(0).getLatitude());
+                    korlong = String.valueOf(addresses.get(0).getLongitude());
+                    uploadKordinat = korlat+","+korlong;
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -214,7 +219,6 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
                 uploadBangun = Objects.requireNonNull(tieJamBangun.getText()).toString();
                 uploadTidur = Objects.requireNonNull(tieJamTidur.getText()).toString();
                 uploadDepartemen = tvJabatan.getText().toString();
-                uploadStatus = tvStatus.getText().toString();
                 uploadTanggal = tvTanggal.getText().toString();
                 uploadJamabsen = tvJam.getText().toString();
 
@@ -247,7 +251,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
                     alertDialog.setMessage("Mengirim Data");
                     alertDialog.show();
                     //jika gagal
-                    if (isEmpty(keterangan, uploadJamabsen, uploadBangun, uploadTidur, uploadTanggal, uploadStatus, uploadDepartemen, terimaNama, uploadStatus)) {
+                    if (isEmpty(keterangan, uploadJamabsen, uploadBangun, uploadTidur, uploadTanggal, uploadKordinat, uploadDepartemen, terimaNama,lokasi)) {
                         alertDialog.dismiss();
                         Toasty.error(getApplicationContext(), "Presensi Gagal, Periksa Koneksi Anda", Toasty.LENGTH_SHORT).show();
                         tieJamTidur.setText("");
@@ -269,7 +273,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
                                 .addBodyParameter("jam_tidur", uploadTidur)
                                 .addBodyParameter("jam_bangun", uploadBangun)
                                 .addBodyParameter("lokasi", lokasi)
-                                .addBodyParameter("status", uploadStatus)
+                                .addBodyParameter("status", uploadKordinat)
                                 .addBodyParameter("keterangan", keterangan)
                                 .build()
                                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -284,7 +288,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
                                     }
                                 });
                                 submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadJamabsen, uploadDepartemen,
-                                uploadBangun, uploadTidur, uploadStatus, keterangan, uploadTema, uploadPemateri, lokasi));
+                                uploadBangun, uploadTidur, uploadKordinat, keterangan, uploadTema, uploadPemateri, lokasi));
                         Toasty.success(getApplicationContext(),"Absensi Berhasil", Toasty.LENGTH_SHORT).show();
                         Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
                         startActivity(intentHome);
@@ -305,7 +309,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
         tvJam.setText(jamNow + " WIB");
     }
 
-    private boolean isEmpty(String s, String uploadWaktu, String uploadBangun, String uploadTidur, String uploadTanggal, String uploadStatus, String uploadJabatan, String terimaNama, String status) {
+    private boolean isEmpty(String s, String uploadWaktu, String uploadBangun, String uploadTidur, String uploadTanggal, String uploadKordinat, String uploadJabatan, String terimaNama, String status) {
         // Cek apakah ada fields yang kosong, sebelum disubmit
         return TextUtils.isEmpty(s);
     }

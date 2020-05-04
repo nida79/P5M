@@ -2,21 +2,9 @@ package com.example.buma_p5m.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +14,6 @@ import com.example.buma_p5m.R;
 import com.example.buma_p5m.adapters.AbsensiAdapter;
 import com.example.buma_p5m.models.Absensi;
 import com.example.buma_p5m.utils.Session;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +22,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -91,7 +77,7 @@ public class ListAbsensi extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()){
                             absensilist.add(ds.getValue(Absensi.class));
                         }
-                        absensiAdapter = new AbsensiAdapter(ListAbsensi.this,absensilist);
+                        absensiAdapter = new AbsensiAdapter(absensilist);
                         recyclerView.setAdapter(absensiAdapter);
                         absensiAdapter.notifyDataSetChanged();
                         absensiAdapter.setOnItemClickListener(position -> {
@@ -132,12 +118,12 @@ public class ListAbsensi extends AppCompatActivity {
                 searchList.add(data);
             }
         }
-        absensiAdapter = new AbsensiAdapter(this,searchList);
+        absensiAdapter = new AbsensiAdapter(searchList);
         recyclerView.setAdapter(absensiAdapter);
         absensiAdapter.notifyDataSetChanged();
         absensiAdapter.setOnItemClickListener(position -> {
             Intent intent = new Intent(ListAbsensi.this,DetailActivity.class);
-            intent.putExtra(DATA,absensilist.get(position));
+            intent.putExtra(DATA,searchList.get(position));
             intent.putExtra("data","user");
             startActivity(intent);
         });

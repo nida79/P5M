@@ -38,7 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tvtidur,tvabsen,tvbangun,tvtanggal,tvalamat,tvketerangan,tvtema,tvpemateri
             ,tvnama,tvnik;
     private static final String DATA = "EXTRA_DATA";
-    private String terima,nama,nik;
+    private String terima,nama,nik,koordinat;
     private SupportMapFragment supportMapFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +98,7 @@ public class DetailActivity extends AppCompatActivity {
             tvtema.setText(data.getTema());
             tvpemateri.setText(data.getPemateri());
             nama = data.getNama();
+            koordinat = data.getKoordinat();
         }
     }
 
@@ -107,27 +108,38 @@ public class DetailActivity extends AppCompatActivity {
             ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = Objects.requireNonNull(connMgr).getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
-                String location = tvalamat.getText().toString();
-                Double latitude = null;
-                Double longitude = null;
-                Geocoder geocoder = new Geocoder(DetailActivity.this);
-                try {
-                    List<Address> addresses = geocoder.getFromLocationName(location,1);
-                    if (addresses.size()>0){
-                        latitude = addresses.get(0).getLatitude();
-                        longitude = addresses.get(0).getLongitude();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (latitude!=null && longitude!=null){
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    MarkerOptions options = new MarkerOptions().position(latLng)
-                            .title("Lokasi Absen "+tvnama.getText().toString());
-                    CameraPosition posisi = CameraPosition.builder().target(latLng).zoom(18).bearing(0).tilt(45).build();
+//                String location = tvalamat.getText().toString();
+                String[] lokasi = koordinat.split(",");
+                double lati = Double.parseDouble(lokasi[0]);
+                double longi= Double.parseDouble(lokasi[1]);
+//                Double latitude = null;
+//                Double longitude = null;
+//                Geocoder geocoder = new Geocoder(DetailActivity.this);
+//                try {
+//                    List<Address> addresses = geocoder.getFromLocationName(location,1);
+//                    if (addresses.size()>0){
+//                        latitude = addresses.get(0).getLatitude();
+//                        longitude = addresses.get(0).getLongitude();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                if (latitude!=null && longitude!=null){
+//                    LatLng latLng = new LatLng(latitude, longitude);
+//                    MarkerOptions options = new MarkerOptions().position(latLng)
+//                            .title("Lokasi Absensi "+tvnama.getText().toString());
+//                    CameraPosition posisi = CameraPosition.builder().target(latLng).zoom(18).bearing(0).tilt(45).build();
+//                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(posisi));
+//                    googleMap.addMarker(options);
+//                }
+//                else {
+                    LatLng latLng2 = new LatLng(lati, longi);
+                    MarkerOptions options = new MarkerOptions().position(latLng2)
+                            .title("Lokasi Absensi "+tvnama.getText().toString());
+                    CameraPosition posisi = CameraPosition.builder().target(latLng2).zoom(18).bearing(0).tilt(45).build();
                     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(posisi));
                     googleMap.addMarker(options);
-                }
+//                }
             }
             else {
                 Toasty.info(getApplicationContext(),

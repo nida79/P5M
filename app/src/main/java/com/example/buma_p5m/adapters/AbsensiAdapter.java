@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiViewHolder> {
 
-    private Context mCtx;
     private ArrayList<Absensi> absensilist;
     private OnItemClickListener mListener;
 
@@ -29,9 +28,7 @@ public class AbsensiAdapter extends RecyclerView.Adapter<AbsensiAdapter.AbsensiV
         mListener = listener;
     }
 
-
-    public AbsensiAdapter(Context mCtx, ArrayList<Absensi> absensilist) {
-        this.mCtx = mCtx;
+    public AbsensiAdapter(ArrayList<Absensi> absensilist) {
         this.absensilist = absensilist;
     }
 
