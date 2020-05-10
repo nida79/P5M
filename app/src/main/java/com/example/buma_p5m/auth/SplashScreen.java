@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.example.buma_p5m.R;
 
 public class SplashScreen extends AppCompatActivity {
-    ProgressBar splashProgress;
+    private ProgressBar splashProgress;
     int SPLASH_TIME = 3100; //This is 3 seconds
     @Override
     protected void onCreate(Bundle savedInstanceState) {

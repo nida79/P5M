@@ -2,8 +2,11 @@ package com.example.buma_p5m.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,13 +33,16 @@ import com.google.firebase.database.ValueEventListener;
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
+import static com.example.buma_p5m.utils.App.CHANNEL_1_ID;
+
 public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final String FORM = "Setup Form";
     private String spin,statusAbsen,materi;
-    private String uid ;
+    private String uid,message,title ;
     private EditText editText;
     private TextView textView;
     private Button kirim;
+    private NotificationManagerCompat notificationManager;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +54,19 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         uid = "1";
+        title = "Selamat Pagi";
+        message = "Absensi Telah Ditutup";
         kirim = findViewById(R.id.submitFormSetup);
         Switch mySwitch = findViewById(R.id.btnswithc);
         editText = findViewById(R.id.edtPemateri);
         textView = findViewById(R.id.kirimAbsen);
-
+        notificationManager = NotificationManagerCompat.from(this);
         //switch button
         mySwitch.setChecked(false);
         mySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 textView.setText("Enable");
+                message = "Absensi Telah Dibuka";
                 textView.setTextColor(getResources().getColor(R.color.ijo));
             } else {
                 textView.setText("Disable");
@@ -84,6 +93,7 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
             statusAbsen = textView.getText().toString();
             materi = editText.getText().toString();
             submitItem(statusAbsen,uid,spin,materi);
+
         });
     }
 
@@ -93,6 +103,15 @@ public class SetUpP5M extends AppCompatActivity implements AdapterView.OnItemSel
         DatabaseReference mRef = mFirebaseDatabase.getReference(FORM).child(uid);
         SetUpFormModel data = new SetUpFormModel(statusAbsen,uid,spin,materi);
         mRef.setValue(data);
+//        Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+//                .setSmallIcon(R.drawable.icon_p5m)
+//                .setContentTitle(title)
+//                .setContentText(message)
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setCategory(NotificationCompat.CATEGORY_EVENT)
+//                .build();
+//
+//        notificationManager.notify(1, notification);
         Toasty.success(getApplicationContext(),"Setting Berhasil", Toasty.LENGTH_SHORT).show();
         Intent intentHome = new Intent(SetUpP5M.this, HomeActivity.class);
         startActivity(intentHome);

@@ -38,15 +38,15 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     private static final String TAG ="RgisterActivity" ;
     private String[] list = {"-Pilih-", "Admin", "User"};
 
-    Session session;
-    TextView textViewLevel;
-    Button buttonReg;
-    TextInputEditText tieRegNama, tieRegNik, tieRegEmail, tieRegPassword;
+    private Session session;
+    private TextView textViewLevel;
+    private Button buttonReg;
+    private TextInputEditText tieRegNama, tieRegNik, tieRegEmail, tieRegPassword;
     private FirebaseAuth mAuth;
     private FirebaseAuth mAuth2;
-    DatabaseReference databaseReference;
-    RadioButton pria, wanita;
-    String gender = "";
+    private DatabaseReference databaseReference;
+    private RadioButton pria, wanita;
+    private  String gender = "";
     private static final String USERS = "Data Karyawan";
     @SuppressLint("SetTextI18n")
     @Override
@@ -175,8 +175,9 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                             alertDialog.dismiss();
                             FirebaseUser user = Objects.requireNonNull(task.getResult()).getUser();
                             String uid = Objects.requireNonNull(user).getUid();
+                            String tgl_limit = "kosong";
                             // mengirim data sesuai model yang telah dibuat
-                            User informasi = new User(nama, nik, email, gender,level,uid);
+                            User informasi = new User(nama, nik, email, gender,level,uid,tgl_limit);
                             databaseReference.push().setValue(informasi).addOnCompleteListener(task1 -> {
                                 alertDialog.dismiss();
                                 Toasty.success(RegisterActivity.this, "Berhasil Menambah Data Karyawan"

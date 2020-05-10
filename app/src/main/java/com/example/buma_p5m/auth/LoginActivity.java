@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textViewLupa;
     private Button buttonLogin;
     private FirebaseAuth auth;
-    Session session;
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -45,8 +45,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
@@ -89,7 +93,8 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
     private ArrayList<String> permissions = new ArrayList<>();
     // integer for permissions results request
     private static final int ALL_PERMISSIONS_RESULT = 1011;
-
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(USERS);
+    private static final String USERS = "Data Karyawan";
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -210,92 +215,111 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
             else {
 
 
-            if (lokasi == null){
-                Toasty.info(getApplicationContext(),"Aktifkan GPS Anda dan tunggu 6 detik untuk mendapatkan lokasi yang akurat",Toasty.LENGTH_LONG).show();
-                mendapatkanLokasi();
-            }
-            else
+                if (lokasi == null){
+                    Toasty.info(getApplicationContext(),"Aktifkan GPS Anda dan tunggu 6 detik untuk mendapatkan lokasi yang akurat",Toasty.LENGTH_LONG).show();
+                    mendapatkanLokasi();
+                }
+                else
                 {
-                uploadBangun = Objects.requireNonNull(tieJamBangun.getText()).toString();
-                uploadTidur = Objects.requireNonNull(tieJamTidur.getText()).toString();
-                uploadDepartemen = tvJabatan.getText().toString();
-                uploadTanggal = tvTanggal.getText().toString();
-                uploadJamabsen = tvJam.getText().toString();
+                    uploadBangun = Objects.requireNonNull(tieJamBangun.getText()).toString();
+                    uploadTidur = Objects.requireNonNull(tieJamTidur.getText()).toString();
+                    uploadDepartemen = tvJabatan.getText().toString();
+                    uploadTanggal = tvTanggal.getText().toString();
+                    uploadJamabsen = tvJam.getText().toString();
 
-                if (sehat.isChecked()) {
-                    keterangan = "Sehat";
-                }
-
-                if (tidak_sehat.isChecked()) {
-                    keterangan = "Tidak Sehat";
-                }
-
-                if (uploadTidur.isEmpty()) {
-                    Toasty.warning(getApplicationContext(), "Masukkan Jam Tidur Anda"
-                            , Toasty.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (uploadBangun.isEmpty()) {
-                    Toasty.warning(getApplicationContext(), "Masukkan Jam Bangun Anda"
-                            , Toasty.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (keterangan.equals("")) {
-                    Toasty.warning(getApplicationContext(), "Status Keterangan Belum Dipilih"
-                            , Toasty.LENGTH_SHORT).show();
-                } else {
-                    final android.app.AlertDialog alertDialog =
-                            new SpotsDialog.Builder().setContext(FormPm5.this).build();
-                    alertDialog.setMessage("Mengirim Data");
-                    alertDialog.show();
-                    //jika gagal
-                    if (isEmpty(keterangan, uploadJamabsen, uploadBangun, uploadTidur, uploadTanggal, uploadKordinat, uploadDepartemen, terimaNama,lokasi)) {
-                        alertDialog.dismiss();
-                        Toasty.error(getApplicationContext(), "Presensi Gagal, Periksa Koneksi Anda", Toasty.LENGTH_SHORT).show();
-                        tieJamTidur.setText("");
-                        tieJamBangun.setText("");
+                    if (sehat.isChecked()) {
+                        keterangan = "Sehat";
                     }
-                    else {
-                        alertDialog.dismiss();
-                        //jika tidak ada field kosong
-                        AndroidNetworking.post(SPREAD_SHEET)
-                                .setPriority(Priority.HIGH)
-                                .addBodyParameter("action", "addItem")
-                                .addBodyParameter("uid", uid)
-                                .addBodyParameter("tanggal", uploadTanggal)
-                                .addBodyParameter("tema", uploadTema)
-                                .addBodyParameter("pemateri", uploadPemateri)
-                                .addBodyParameter("nama", terimaNama)
-                                .addBodyParameter("departemen", uploadDepartemen)
-                                .addBodyParameter("jam_absensi", uploadJamabsen)
-                                .addBodyParameter("jam_tidur", uploadTidur)
-                                .addBodyParameter("jam_bangun", uploadBangun)
-                                .addBodyParameter("lokasi", lokasi)
-                                .addBodyParameter("status", uploadKordinat)
-                                .addBodyParameter("keterangan", keterangan)
-                                .build()
-                                .getAsJSONObject(new JSONObjectRequestListener() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        Log.e(TAG, "onResponse: " + response);
+
+                    if (tidak_sehat.isChecked()) {
+                        keterangan = "Tidak Sehat";
+                    }
+
+                    if (uploadTidur.isEmpty()) {
+                        Toasty.warning(getApplicationContext(), "Masukkan Jam Tidur Anda"
+                                , Toasty.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (uploadBangun.isEmpty()) {
+                        Toasty.warning(getApplicationContext(), "Masukkan Jam Bangun Anda"
+                                , Toasty.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (keterangan.equals("")) {
+                        Toasty.warning(getApplicationContext(), "Status Keterangan Belum Dipilih"
+                                , Toasty.LENGTH_SHORT).show();
+                    } else {
+                        final android.app.AlertDialog alertDialog =
+                                new SpotsDialog.Builder().setContext(FormPm5.this).build();
+                        alertDialog.setMessage("Mengirim Data");
+                        alertDialog.show();
+                        //jika gagal
+                        if (isEmpty(keterangan, uploadJamabsen, uploadBangun, uploadTidur, uploadTanggal, uploadKordinat, uploadDepartemen, terimaNama,lokasi)) {
+                            alertDialog.dismiss();
+                            Toasty.error(getApplicationContext(), "Presensi Gagal, Periksa Koneksi Anda", Toasty.LENGTH_SHORT).show();
+                            tieJamTidur.setText("");
+                            tieJamBangun.setText("");
+                        }
+                        else {
+                            alertDialog.dismiss();
+                            //jika tidak ada field kosong
+                            AndroidNetworking.post(SPREAD_SHEET)
+                                    .setPriority(Priority.HIGH)
+                                    .addBodyParameter("action", "addItem")
+                                    .addBodyParameter("uid", uid)
+                                    .addBodyParameter("tanggal", uploadTanggal)
+                                    .addBodyParameter("tema", uploadTema)
+                                    .addBodyParameter("pemateri", uploadPemateri)
+                                    .addBodyParameter("nama", terimaNama)
+                                    .addBodyParameter("departemen", uploadDepartemen)
+                                    .addBodyParameter("jam_absensi", uploadJamabsen)
+                                    .addBodyParameter("jam_tidur", uploadTidur)
+                                    .addBodyParameter("jam_bangun", uploadBangun)
+                                    .addBodyParameter("lokasi", lokasi)
+                                    .addBodyParameter("status", uploadKordinat)
+                                    .addBodyParameter("keterangan", keterangan)
+                                    .build()
+                                    .getAsJSONObject(new JSONObjectRequestListener() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            Log.e(TAG, "onResponse: " + response);
+                                        }
+                                        @Override
+                                        public void onError(ANError anError) {
+                                            Log.e(TAG, "onError: " + anError.getErrorDetail());
+                                            Toasty.info(getApplicationContext(),"Tidak ada Koneksi, Data Tersimpan di Firebase",Toasty.LENGTH_LONG).show();
+                                        }
+                                    });
+                            submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadJamabsen, uploadDepartemen,
+                                    uploadBangun, uploadTidur, uploadKordinat, keterangan, uploadTema, uploadPemateri, lokasi));
+                            Query query = databaseReference.orderByChild("nama").equalTo(terimaNama);
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot ds :dataSnapshot.getChildren()){
+                                        //update Data
+                                        ds.getRef().child("tanggal_limit").setValue(uploadTanggal);
+
                                     }
-                                    @Override
-                                    public void onError(ANError anError) {
-                                        Log.e(TAG, "onError: " + anError.getErrorDetail());
-                                        Toasty.info(getApplicationContext(),"Tidak ada Koneksi, Data Tersimpan di Firebase",Toasty.LENGTH_LONG).show();
-                                    }
-                                });
-                                submitItem(new ModelP5M(terimaNama, uploadTanggal, uploadJamabsen, uploadDepartemen,
-                                uploadBangun, uploadTidur, uploadKordinat, keterangan, uploadTema, uploadPemateri, lokasi));
-                        Toasty.success(getApplicationContext(),"Absensi Berhasil", Toasty.LENGTH_SHORT).show();
-                        Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
-                        startActivity(intentHome);
-                        finish();
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    //TODO~
+                                }
+                            });
+
+                            Toasty.success(getApplicationContext(),"Absensi Berhasil", Toasty.LENGTH_SHORT).show();
+                            Intent intentHome = new Intent(FormPm5.this, HomeActivity.class);
+                            intentHome.putExtra("sudah",1);
+                            startActivity(intentHome);
+                            finish();
+                        }
                     }
                 }
-            }
             }
         });
     }
@@ -382,7 +406,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
     protected void onResume() {
         super.onResume();
         if (!checkPlayServices()) {
-           Toasty.info(getApplicationContext(),"Aktifkan GPS Anda",Toasty.LENGTH_LONG).show();
+            Toasty.info(getApplicationContext(),"Aktifkan GPS Anda",Toasty.LENGTH_LONG).show();
         }
     }
 
@@ -467,7 +491,7 @@ public class FormPm5 extends AppCompatActivity implements GoogleApiClient.Connec
     @Override
     public void onLocationChanged(Location location) {
         if (location != null) {
-           mendapatkanLokasi();
+            mendapatkanLokasi();
 
         }
     }

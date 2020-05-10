@@ -8,26 +8,20 @@ public class User {
     private String Gender;
     private String Level;
     private String Uid;
+    private String Tanggal_limit;
 
     //Constructor
 
     public User(){}
 
-    public User(String nama, String nik, String email, String gender, String level, String uid) {
+    public User(String nama, String nik, String email, String gender, String level, String uid, String tanggal_limit) {
         Nama = nama;
         Nik = nik;
         Email = email;
         Gender = gender;
         Level = level;
         Uid = uid;
-    }
-
-    public String getUid() {
-        return Uid;
-    }
-
-    public void setUid(String uid) {
-        Uid = uid;
+        Tanggal_limit = tanggal_limit;
     }
 
     public String getNama() {
@@ -68,5 +62,21 @@ public class User {
 
     public void setLevel(String level) {
         Level = level;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
+    }
+
+    public String getTanggal_limit() {
+        return Tanggal_limit;
+    }
+
+    public void setTanggal_limit(String tanggal_limit) {
+        Tanggal_limit = tanggal_limit;
     }
 }

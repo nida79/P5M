@@ -1,6 +1,7 @@
 package com.example.buma_p5m.activities;
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -12,9 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.auth.LoginActivity;
@@ -22,29 +26,34 @@ import com.example.buma_p5m.auth.RegisterActivity;
 import com.example.buma_p5m.utils.Session;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Objects;
 
 import dmax.dialog.SpotsDialog;
 import es.dmoral.toasty.Toasty;
 
+import static com.example.buma_p5m.utils.App.CHANNEL_1_ID;
+
 public class HomeActivity extends AppCompatActivity {
     private static final String TAG = "TEMA";
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    private String email, Nama, Nik, Level,status,setara,pengisi,tema,uid;
-    private TextView namaKaryawan, emailKarawan, nikKaryawan, levelakun;
+    private String email, Nama, Nik, Level,status,setara,pengisi,tema,uid,tgl_limit;
+    private TextView namaKaryawan, emailKarawan, nikKaryawan, levelakun,tvTanggal;
     private static final String USERS = "Data Karyawan";
     private static final String TEMA = "Setup Form";
     private LinearLayout linearLayouthome, linearLayoutwadah,llsetting,llform;
     private Session session;
-    private DatabaseReference userRef;
-    private DatabaseReference temaRef;
+    private NotificationManagerCompat notificationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,8 @@ public class HomeActivity extends AppCompatActivity {
         levelakun = findViewById(R.id.level);
         session = new Session(this);
         setara = "Disable";
+        tanggal();
+        notificationManager = NotificationManagerCompat.from(this);
 
         final android.app.AlertDialog alertDialog =
                 new SpotsDialog.Builder().setContext(HomeActivity.this).build();
@@ -78,28 +89,28 @@ public class HomeActivity extends AppCompatActivity {
 
         //menerima data sesuai email yang login
         email = session.getSPEmail();
-
         //initialize firebase 1
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.keepSynced(true);
-        userRef = rootRef.child(USERS);
+        DatabaseReference userRef = rootRef.child(USERS);
+        Query query = userRef.orderByChild("email").equalTo(email);
         Log.v("USERID", Objects.requireNonNull(userRef.getKey()));
 
         // Menampilkan data dari database
-        userRef.addValueEventListener(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 alertDialog.dismiss();
                 for (DataSnapshot keyId : dataSnapshot.getChildren()) {
-                    if (Objects.requireNonNull(keyId.child("email").getValue()).equals(email)) {
-                        Level = keyId.child("level").getValue(String.class);
-                        Nama = keyId.child("nama").getValue(String.class);
-                        Nik = keyId.child("nik").getValue(String.class);
-                        email = keyId.child("email").getValue(String.class);
-                        uid = keyId.child("uid").getValue(String.class);
-                        break;
-                    }
+                    Level = keyId.child("level").getValue(String.class);
+                    Nama = keyId.child("nama").getValue(String.class);
+                    Nik = keyId.child("nik").getValue(String.class);
+                    email = keyId.child("email").getValue(String.class);
+                    uid = keyId.child("uid").getValue(String.class);
+                    tgl_limit = keyId.child("tanggal_limit").getValue(String.class);
+
                 }
+
                 namaKaryawan.setText(Nama);
                 nikKaryawan.setText(Nik);
                 emailKarawan.setText(email);
@@ -133,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
         //initialize firebase 2
         DatabaseReference secondRef = FirebaseDatabase.getInstance().getReference();
         secondRef.keepSynced(true);
-        temaRef = secondRef.child(TEMA);
+        DatabaseReference temaRef = secondRef.child(TEMA);
 
         //cek absensi enable/disable
         temaRef.addValueEventListener(new ValueEventListener() {
@@ -148,17 +159,23 @@ public class HomeActivity extends AppCompatActivity {
                 session.saveSPString(Session.SP_STATUS,status);
                 session.saveSPString(Session.SP_PEMATER,pengisi);
                 session.saveSPString(Session.SP_TEMA,tema);
-                if (Objects.requireNonNull(status).equals(setara)){
-                    llform.setOnClickListener(v -> Toasty.info(getApplicationContext(),"Absensi Belum dibuka",Toasty.LENGTH_LONG).show());
-                }
-                else {
-                    llform.setOnClickListener(v -> {
-                        Intent form = new Intent(HomeActivity.this, FormPm5.class);
-                        startActivity(form);
+
+                llform.setOnClickListener(v->{
+                    if (Objects.requireNonNull(status).equals(setara)){
+                        Toasty.info(getApplicationContext(),"Absensi Belum dibuka",Toasty.LENGTH_SHORT).show();
+                    }
+                    else if (tgl_limit.equals(tvTanggal.getText().toString())){
+                        Toasty.warning(getApplicationContext(),"Anda Sudah Melakukan Absensi !",Toasty.LENGTH_SHORT).show();
+                    }
+                    else {
+                        startActivity(new Intent(getApplicationContext(),FormPm5.class));
                         finishAffinity();
                         finish();
-                    });
-                }
+                    }
+
+                });
+
+
             }
 
             @Override
@@ -166,6 +183,53 @@ public class HomeActivity extends AppCompatActivity {
                 Toasty.error(getApplicationContext(),databaseError.getMessage(),Toasty.LENGTH_LONG).show();
             }
         });
+
+            temaRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    if (!status.equals(setara)){
+                        Notification notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_1_ID)
+                                .setSmallIcon(R.drawable.icon_p5m)
+                                .setContentTitle("Selamat Pagi Buma")
+                                .setContentText("Absensi Sudah Dibuka, Terimakasih ")
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .build();
+                        notificationManager.notify(1, notification);
+                    }
+                    if (status.equals(setara)){
+                        Notification notification = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_1_ID)
+                                .setSmallIcon(R.drawable.icon_p5m)
+                                .setContentTitle("Selamat Pagi Buma")
+                                .setContentText("Absensi Sudah Ditutup, Terimakasih ")
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                                .build();
+                        notificationManager.notify(1, notification);
+                    }
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
 
         // session login
         authListener = firebaseAuth -> {
@@ -216,6 +280,14 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         memintaPerizinan();
+    }
+
+    private void tanggal() {
+
+        tvTanggal = findViewById(R.id.tanggallimit);
+        Calendar calendar = Calendar.getInstance();
+        String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
+        tvTanggal.setText(currentDate);
     }
     private void memintaPerizinan() {
         if (ActivityCompat.checkSelfPermission(HomeActivity.this,

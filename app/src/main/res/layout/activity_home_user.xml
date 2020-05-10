@@ -25,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
+
         <ImageView
             android:id="@+id/fotoProfile"
             android:layout_width="71dp"
@@ -239,6 +240,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:id="@+id/llForm"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -260,6 +262,11 @@
                         android:text="Form P5M"
                         android:textColor="#172646"
                         android:textSize="16sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/tanggallimit"/>
 
                 </LinearLayout>
 
