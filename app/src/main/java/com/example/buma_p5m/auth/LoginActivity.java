@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.buma_p5m.R;
 import com.example.buma_p5m.activities.HomeActivity;
+import com.example.buma_p5m.activities.PrivacyPolicy;
 import com.example.buma_p5m.utils.EmailValidator;
 import com.example.buma_p5m.utils.Session;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //membuat variabel
     private TextInputEditText tieEmail, tiePassword;
-    private TextView textViewLupa;
+    private TextView textViewLupa,tv_pricay;
     private Button buttonLogin;
     private FirebaseAuth auth;
     private Session session;
@@ -56,10 +57,15 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.btnloginAkun);
         textViewLupa = findViewById(R.id.tvLupaPass);
         session = new Session(this);
+        tv_pricay= findViewById(R.id.tv_privacy);
         //Cek Apakah Sudah ada user yang login
         session();
 
         login(); // memanggil method login
+
+        tv_pricay.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), PrivacyPolicy.class));
+        });
 
         //Berpindah ke aktivitas Reset Password
         textViewLupa.setOnClickListener(

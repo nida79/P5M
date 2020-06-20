@@ -33,7 +33,7 @@
 
     <LinearLayout
         android:layout_width="347dp"
-        android:layout_height="410dp"
+        android:layout_height="415dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/blue_border_rounded_corner"
         android:orientation="vertical"
@@ -145,13 +145,13 @@
                 android:fontFamily="@font/acme"
                 android:text="L o g i n"
                 android:textColor="#FFF"
-                android:textStyle="bold"
                 android:textSize="@dimen/_15ssp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-                app:layout_constraintVertical_bias="0.72" />
+                app:layout_constraintVertical_bias="0.61" />
 
             <TextView
                 android:textAlignment="center"
@@ -167,6 +167,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
+            <TextView
+                android:textAlignment="center"
+                android:fontFamily="@font/andada"
+                android:textColor="#1566e0"
+                android:id="@+id/tv_privacy"
+                android:textSize="@dimen/_13ssp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnloginAkun" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
